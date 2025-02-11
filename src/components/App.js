@@ -1,5 +1,4 @@
-import logo from './logo.svg';
-import './App.css';
+import '../styles/App.css';
 
 // function App() {
 //   return (
@@ -24,14 +23,20 @@ import './App.css';
 //   );
 // }
 
-function App() {
-  return (
-    <div className="bg-green-500 text-white p-6 text-2xl font-bold">
-      Tailwind is working! 🎉
-    </div>
-  );
-}
+// function App() {
+//   return (
+//     <div className="bg-green-500 text-white p-6 text-2xl font-bold">
+//       Tailwind is working! 🎉
+//     </div>
+//   );
+// }
 
+import React from "react";
+import Login from "../pages/Login";
+
+function App() {
+  return <Login />;
+}
 
 
 
