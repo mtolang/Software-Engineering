@@ -1,0 +1,104 @@
+/* Sidebar Container */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background-color: #F9486C;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    box-shadow: 4px 0px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Header - Logo & Title */
+  .sidebar-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .logo {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 10px;
+  }
+  
+  .portal-title {
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  
+  /* Navigation Sections */
+  .nav-links {
+    flex-grow: 1;
+  }
+  
+  .nav-section {
+    margin-bottom: 20px;
+  }
+  
+  .section-title {
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+    color: #E5E5E5;
+    margin-bottom: 10px;
+  }
+  
+  .nav-item {
+    display: block;
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 8px 16px;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+  }
+  
+  .nav-item:hover {
+    background-color: #D63F5D;
+  }
+  
+  .nav-item.active {
+    color: #F9486C;
+    background-color: white;
+  }
+  
+  /* User Profile */
+  .user-profile {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    background-color: #E53950;
+    border-radius: 8px;
+  }
+  
+  .user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .user-info {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .user-name {
+    font-size: 14px;
+    font-weight: bold;
+  }
+  
+  .user-role {
+    font-size: 12px;
+    opacity: 0.8;
+  }
+  

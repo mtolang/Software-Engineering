@@ -1,0 +1,138 @@
+/* ✅ General Page Layout */
+
+.admin-homepage-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+  margin-left: 280px;
+  margin-right: 20px;
+  background-color: #ddd;
+}
+
+
+/* ✅ Search Bar */
+.registrant-search {
+  width: 100%;
+  padding: 15px;
+  background: white;
+  display: flex;
+  justify-content: center;
+}
+
+.search-input {
+  width: 50%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 50px;
+  outline: none;
+  font-size: 16px;
+  background-color: #ddd;
+}
+
+.search-input:focus {
+  border-color: #f9486c;
+  box-shadow: 0px 0px 5px rgba(249, 72, 108, 0.5);
+}
+
+/* ✅ Table Styling */
+.table-container {
+  width: calc(100% - 270px); /* Adjust width to fit remaining screen space */
+  margin: 20px auto 20px 270px; /* Move right, avoiding navbar */
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  overflow-x: auto;
+  margin-left: 100px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background: #f9486c;
+  color: white;
+  font-weight: bold;
+}
+
+tr:hover {
+  background: rgba(249, 72, 108, 0.1);
+}
+
+/* ✅ Checkboxes */
+.checkbox-container {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox-container input {
+  margin-right: 10px;
+}
+
+/* ✅ More Details (••• Button) */
+.more-details {
+  position: relative;
+}
+
+.more-options {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.adminhome-dropdown-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 20px; /* Adjust size if needed */
+  color: black; /* Change color to black */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50%; /* Ensures centering within the cell */
+}
+
+.admin-dropdown-menu {
+  position: absolute;
+  right: 10px;
+  top: 30px;
+  background: #f9486c;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  flex-direction: column;
+  z-index: 10;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.admin-dropdown-menu.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.admin-dropdown-menu p {
+  margin: 0;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.admin-dropdown-menu p:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.more-details:hover .dropdown-menu {
+  display: flex;
+}
+

@@ -1,12 +1,11 @@
 /* Container */
-.login-container {
+.admin-login-container {
   display: flex;
   height: 100vh;
 }
 
-
-/* Left Side - Login */
-.login-box {
+/* Left Side - Admin Login Box */
+.admin-login-box {
   width: 60%;
   background: white;
   display: flex;
@@ -18,7 +17,7 @@
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.login-title {
+.admin-login-title {
   font-size: 30px;
   font-weight: bold;
   margin-bottom: 24px;
@@ -84,8 +83,8 @@
   text-decoration: underline;
 }
 
-/* Right Side - Sign Up */
-.login-signup-box {
+/* Right Side - Admin Info Box */
+.admin-info-box {
   width: 45%;
   background: linear-gradient(rgba(249, 72, 108, 0.9),
       /* F9486C with 90% opacity */
@@ -93,7 +92,7 @@
     url("../assets/uic.jpg");
   /* Background image */
 
-  background-size: cover;
+ background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 
@@ -104,62 +103,37 @@
   padding: 10px;
 }
 
-.login-signup-title {
+.admin-logo {
+  width: 150px;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.admin-info-title {
   color: white;
-  font-size: 40px;
+  font-size: 30px;
   font-weight: bold;
 }
 
-.login-signup-text {
+.admin-info-text {
   color: white;
-  font-size: 20px;
+  font-size: 18px;
   margin-top: 10px;
 }
 
-.login-signup-button {
-  width: 30%;
-  background: #F9486C;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 50px;
-  margin-top: 15px;
-  cursor: pointer;
-  border: 2px solid white;
-  /* White border */
-  font-weight: bold;
-}
-
-.signup-logo {
-  width: 150px;
-  /* Adjust size */
-  height: auto;
-  /* Maintain aspect ratio */
-  display: block;
-  /* Ensures it's centered */
-  margin: 0 auto;
-  /* Centers it inside its container */
-}
-
-
-.signup-button:hover {
-  background: #b51535;
-  color: #fefefe;
-  border: 2px solid #ffffff;
-  /* Keeps the border on hover */
-}
-
-/* User Login Toggle Switch */
-.login-switch-container {
+/* Admin/User Toggle Switch */
+.admin-switch-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 20px auto; /* Adds space and centers it */
-  position: relative;
-  top: 10px; /* Adjust this value to move it down */
+  gap: 10px;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 20px;
 }
 
-/* User Login Switch */
-.login-switch {
+.admin-switch {
   position: relative;
   display: inline-block;
   width: 50px;
@@ -167,14 +141,14 @@
 }
 
 /* Hide Default Checkbox */
-.login-switch input {
+.admin-switch input {
   opacity: 0;
   width: 0;
   height: 0;
 }
 
 /* Slider */
-.login-slider {
+.admin-slider {
   position: absolute;
   cursor: pointer;
   top: 0;
@@ -187,7 +161,7 @@
 }
 
 /* Slider Circle */
-.login-slider:before {
+.admin-slider:before {
   position: absolute;
   content: "";
   height: 18px;
@@ -200,15 +174,15 @@
 }
 
 /* When Checked, Change Color */
-.login-switch input:checked + .login-slider {
+.admin-switch input:checked + .admin-slider {
   background-color: #f9486c;
 }
 
 /* Move Slider Right */
-.login-switch input:checked + .login-slider:before {
+.admin-switch input:checked + .admin-slider:before {
   transform: translateX(26px);
 }
 
-.toggle-container + .login-box {
-  margin-top: -100px; /* Adjust as needed */
+.admin-switch-container span{
+  color: black;
 }

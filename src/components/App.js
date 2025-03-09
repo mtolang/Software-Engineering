@@ -1,43 +1,29 @@
-import '../styles/App.css';
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-
-    
-//   );
-// }
-
-// function App() {
-//   return (
-//     <div className="bg-green-500 text-white p-6 text-2xl font-bold">
-//       Tailwind is working! 🎉
-//     </div>
-//   );
-// }
-
 import React from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Login from "../pages/Login";
+import Signup from "../pages/Signup";
+import Home from "../pages/Home";
+import ForgotPassword from "../pages/ForgotPassword";
+import AdminHome from "../pages/AdminHome";
+import AdminLogin from "../pages/AdminLogin"
 
-function App() {
-  return <Login />;
-}
-
-
+const App = () => {
+  return (
+    <Router> 
+      <Routes>
+        {/* ✅ Default Route Redirects to /login */}
+        <Route path="/" element={<Navigate to="/login" />} />
+        
+        {/* ✅ Lowercase paths (recommended) */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/adminlogin" element={<AdminLogin />} />
+        <Route path="/forgotpass" element={<ForgotPassword />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/adminhome" element={<AdminHome />} />
+      </Routes>
+    </Router>
+  );
+};
 
 export default App;
