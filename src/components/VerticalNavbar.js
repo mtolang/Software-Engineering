@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "../styles/components/verticalnavbar.css";
 import logo from "../assets/nobglogo.png";
 import userImage from "../assets/logo.png"; // Replace with actual image path
@@ -17,16 +17,16 @@ const VerticalNavbar = () => {
       <nav className="nav-links">
         <div className="nav-section">
           <span className="section-title">GENERAL</span>
-          <Link to="/events" className="nav-item">Events</Link>
-          <Link to="/survey" className="nav-item">Survey</Link>
-          <Link to="/donations" className="nav-item">Donations</Link>
+          <NavLink to="/events" className="nav-item" activeClassName="active">Events</NavLink>
+          <NavLink to="/survey" className="nav-item" activeClassName="active">Survey</NavLink>
+          <NavLink to="/donations" className="nav-item" activeClassName="active">Donations</NavLink>
         </div>
 
         <div className="nav-section">
           <span className="section-title">USER MANAGEMENT</span>
-          <Link to="/alumni" className="nav-item">Alumni</Link>
-          <Link to="/registrants" className="nav-item active">Registrants</Link>
-          <Link to="/adminlogin" className="nav-item">Logout</Link>
+          <NavLink to="/adminalumni" className="nav-item" activeClassName="active">Alumni</NavLink>
+          <NavLink to="/adminregistrants" className="nav-item" activeClassName="active">Registrants</NavLink>
+          <NavLink to="/adminlogin" className="nav-item" activeClassName="active">Logout</NavLink>
         </div>
       </nav>
 
@@ -35,7 +35,7 @@ const VerticalNavbar = () => {
         <img src={userImage} alt="User Profile" className="user-avatar" />
         <div className="user-info">
           <p className="user-name">Martin Rey Tolang</p>
-          <p className="user-role">Administrator</p>
+          <p className="user-role">Alumni Coordinator</p>
         </div>
       </div>
     </aside>

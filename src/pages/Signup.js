@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/signup.css";
 import { db } from "../firebaseConfig";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp, query, where, getDocs } from "firebase/firestore";
 
 const Signup = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -15,6 +15,7 @@ const Signup = () => {
     courseGraduated: "",
     currentAddress: "",
   });
+  const [error, setError] = useState("");
 
   const navigate = useNavigate();
 
@@ -22,7 +23,35 @@ const Signup = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    // Check for empty fields
+    if (
+      !formData.firstName ||
+      !formData.lastName ||
+      !formData.email ||
+      !formData.password ||
+      !formData.yearGraduated ||
+      !formData.courseGraduated ||
+      !formData.currentAddress
+    ) {
+      setError("Please fill out all fields.");
+      return;
+    }
+
+    // Check for existing registration
+    const q = query(
+      collection(db, "registrants"),
+      where("name", "==", `${formData.firstName} ${formData.lastName}`),
+      where("email", "==", formData.email),
+      where("year_graduated", "==", formData.yearGraduated)
+    );
+
+    const querySnapshot = await getDocs(q);
+    if (!querySnapshot.empty) {
+      setError("A registration with the same name, email, and year of graduation already exists.");
+      return;
+    }
+
     // Open modal first (Do NOT save data yet)
     setIsModalOpen(true);
   };
@@ -30,9 +59,9 @@ const Signup = () => {
   const handleConfirm = async () => {
     // Now save data to Firestore when user confirms
     try {
-      await addDoc(collection(db, "Alumni-Portal"), {
+      await addDoc(collection(db, "registrants"), {
         name: `${formData.firstName} ${formData.lastName}`,
-        email: formData.email,  
+        email: formData.email,
         password: formData.password,
         year_graduated: formData.yearGraduated,
         course_graduated: formData.courseGraduated,
@@ -42,6 +71,7 @@ const Signup = () => {
 
       console.log("Registration successful!");
       setIsModalOpen(false); // Close modal after saving
+      navigate("/Login"); // Redirect to login page after successful registration
     } catch (error) {
       console.error("Error saving data: ", error);
     }
@@ -51,6 +81,8 @@ const Signup = () => {
     <div className="signup-page">
       <div className="signup-container">
         <h2 className="signup-title">Register</h2>
+
+        {error && <p className="error-message">{error}</p>}
 
         <label className="signup-label">Name</label>
         <div className="signup-name">

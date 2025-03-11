@@ -2,7 +2,7 @@
 .homebox {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  min-height: 100vh;
 }
 
 /* Welcome Section */
@@ -15,10 +15,151 @@
 
 /* Footer */
 .footer {
-  background-color: #f1f1f1;
   text-align: center;
-  padding: 10px;
-  width: 100%;
-  position: absolute;
-  bottom: 0;
+  padding: 20px;
+  background: #333;
+  color: white;
+}
+
+.home {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: #f8f9fa;
+}
+
+.home-text {
+  text-align: center;
+}
+
+.home-text .slide .one {
+  font-size: 2rem;
+  color: #333;
+}
+
+.home-text h1 {
+  font-size: 4rem;
+  color: #333;
+}
+
+.home-text h3 {
+  font-size: 2rem;
+  color: #333;
+}
+
+.home-text h3 span {
+  color: #f9486c;
+}
+
+.visit-btn {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background: #f9486c;
+  color: white;
+  border-radius: 5px;
+  text-decoration: none;
+}
+
+.about {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 50px 0;
+  background: #f8818f;
+}
+
+.about-img img {
+  width: 300px;
+  height: auto;
+  border-radius: 50%;
+}
+
+.about-text {
+  max-width: 600px;
+  margin-left: 50px;
+}
+
+.about-text h2 {
+  font-size: 2.5rem;
+  color: #333;
+}
+
+.about-text h4 span {
+  color: #950824;
+}
+
+.about-text h4 {
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.about-text p {
+  font-size: 1rem;
+  color: #fdfdfd;
+  margin-top: 20px;
+}
+
+.services {
+  padding: 50px 0;
+  background: #faf8f9;
+}
+
+.main-text {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.main-text p {
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.main-text h2 {
+  font-size: 2.5rem;
+  color: #333;
+}
+
+.main-text h2 span {
+  color: #f9486c;
+}
+
+.services-content {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.box {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin: 10px;
+  flex: 1;
+  max-width: 300px;
+}
+
+.box h3 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-top: 10px;
+}
+
+.box p {
+  font-size: 1rem;
+  color: #666;
+  margin-top: 10px;
+}
+
+.read-more {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background: #f9486c;
+  color: white;
+  border-radius: 5px;
+  text-decoration: none;
 }

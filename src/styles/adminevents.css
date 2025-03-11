@@ -1,0 +1,90 @@
+.adminevents-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-left: 280px;
+  margin-right: 20px;
+  min-height: 100vh; /* Ensures the container takes full height */
+}
+
+.adminevents-content {
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.adminevents-content h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.adminevents-search-section {
+  margin-bottom: 20px;
+}
+
+.adminevents-search-section h2 {
+  margin-bottom: 10px;
+}
+
+.adminevents-search-fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.adminevents-search-field {
+  flex: 1;
+  min-width: 200px;
+}
+
+.adminevents-search-field label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.adminevents-search-field input,
+.adminevents-search-field select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+}
+
+.adminevents-search-actions {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.adminevents-search-actions button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background: #007bff;
+  color: white;
+  transition: background 0.3s;
+}
+
+.adminevents-search-actions button:hover {
+  background: #0056b3;
+}
+
+.adminevents-add-event-section {
+  text-align: right;
+}
+
+.adminevents-add-event-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background: #28a745;
+  color: white;
+  transition: background 0.3s;
+}
+
+.adminevents-add-event-button:hover {
+  background: #218838;
+}

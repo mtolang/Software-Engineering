@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/nobglogo.png";
+import JobModal from "../components/JobModal"; // Import the JobModal component
 import "../styles/components/navbar.css"; // Import CSS file
 
 const Navbar = () => {
   const navigate = useNavigate();
   const [dropdown, setDropdown] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const toggleDropdown = (menu) => {
     setDropdown(dropdown === menu ? null : menu);
@@ -22,6 +24,15 @@ const Navbar = () => {
     return () => document.removeEventListener("click", closeDropdown);
   }, []);
 
+  const handleAddJob = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleSaveJob = (newJob) => {
+    // Implement save job functionality here
+    console.log("Saving new job:", newJob);
+  };
+
   return (
     <nav className="navbar">
       {/* Left Side - Logo */}
@@ -33,7 +44,7 @@ const Navbar = () => {
       <div className="navbar-center">
         <h1 className="navbar-title">ALUMNI PORTAL</h1>
         <div className="navbar-links">
-          <Link to="/" className="nav-link">HOME</Link>
+          <Link to="/home" className="nav-link">HOME</Link>
 
           {/* Account Dropdown */}
           <div className="dropdown">
@@ -43,7 +54,6 @@ const Navbar = () => {
             {dropdown === "account" && (
               <div className="dropdown-menu">
                 <Link to="/profile" className="dropdown-item">View Profile</Link>
-                <Link to="/manage-alumni" className="dropdown-item">Manage Alumni</Link>
               </div>
             )}
           </div>
@@ -85,8 +95,8 @@ const Navbar = () => {
             </button>
             {dropdown === "jobs" && (
               <div className="dropdown-menu">
-                <Link to="/post-job" className="dropdown-item">Post a Job</Link>
-                <Link to="/find-job" className="dropdown-item">Look for a Job</Link>
+                <button onClick={handleAddJob} className="dropdown-item">Post a Job</button>
+                <Link to="/job" className="dropdown-item">Look for a Job</Link>
               </div>
             )}
           </div>
@@ -97,6 +107,13 @@ const Navbar = () => {
       <button className="logout-btn" onClick={() => navigate("/login")}>
         LOG OUT
       </button>
+
+      {/* Job Modal */}
+      <JobModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSave={handleSaveJob}
+      />
     </nav>
   );
 };

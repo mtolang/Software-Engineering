@@ -1,11 +1,9 @@
 /* ✅ General Page Layout */
-
-.admin-homepage-container {
+.adminalumni-container {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   margin-left: 280px;
-  height: 100px;
   margin-right: 20px;
   min-height: 100vh; /* ✅ Ensures the container takes full height */
 }
@@ -42,7 +40,7 @@
   border-radius: 10px;
   padding: 20px;
   box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.10);
-  overflow-x: autao;
+  overflow-x: auto;
   margin-left: 0px;
   max-height: 80vh; /* Ensure the table doesn't exceed viewport */
   overflow-y: auto;
@@ -84,14 +82,7 @@ tr:hover {
   position: relative;
 }
 
-.more-options {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 18px;
-}
-
-.adminhome-dropdown-btn {
+.adminalumni-dropdown-btn {
   background: none;
   border: none;
   cursor: pointer;
@@ -103,7 +94,7 @@ tr:hover {
   width: 50%; /* Ensures centering within the cell */
 }
 
-.admin-dropdown-menu {
+.adminalumni-dropdown-menu {
   position: absolute;
   right: 10px;
   top: 30px;
@@ -118,19 +109,19 @@ tr:hover {
   transition: opacity 0.2s ease-in-out;
 }
 
-.admin-dropdown-menu.show {
+.adminalumni-dropdown-menu.show {
   opacity: 1;
   visibility: visible;
   margin-right: 20px;
 }
 
-.admin-dropdown-menu p {
+.adminalumni-dropdown-menu p {
   margin: 0;
   padding: 8px 12px;
   cursor: pointer;
 }
 
-.admin-dropdown-menu p:hover {
+.adminalumni-dropdown-menu p:hover {
   background: rgba(255, 255, 255, 0.2);
 }
 
@@ -138,3 +129,60 @@ tr:hover {
   display: flex;
 }
 
+/* ✅ Modal Styling */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  width: 500px;
+  max-width: 100%;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  font-size: 22px;
+  font-weight: bold;
+  color: #f9486c;
+}
+
+.modal-content label {
+  display: block;
+  margin-top: 10px;
+  text-align: left;
+  font-size: 16px;
+}
+
+.modal-content input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+}
+
+.modal-content button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+.modal-content button:hover {
+  opacity: 0.8;
+}
