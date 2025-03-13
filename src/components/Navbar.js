@@ -4,7 +4,7 @@ import logo from "../assets/nobglogo.png";
 import JobModal from "../components/JobModal"; // Import the JobModal component
 import "../styles/components/navbar.css"; // Import CSS file
 
-const Navbar = () => {
+const Navbar = ({ user }) => {
   const navigate = useNavigate();
   const [dropdown, setDropdown] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -37,76 +37,60 @@ const Navbar = () => {
     <nav className="navbar">
       {/* Left Side - Logo */}
       <div className="navbar-logo">
-        <img src={logo} alt="Logo" className="logo" />
+        <img src={logo} alt="Logo" className="navbar-logo-img" />
       </div>
 
       {/* Center - Title and Navigation */}
       <div className="navbar-center">
         <h1 className="navbar-title">ALUMNI PORTAL</h1>
         <div className="navbar-links">
-          <Link to="/home" className="nav-link">HOME</Link>
-
-          {/* Account Dropdown */}
-          <div className="dropdown">
-            <button onClick={(e) => { e.stopPropagation(); toggleDropdown("account"); }} className="dropdown-btn">
-              ACCOUNT ▼
-            </button>
-            {dropdown === "account" && (
-              <div className="dropdown-menu">
-                <Link to="/profile" className="dropdown-item">View Profile</Link>
-              </div>
-            )}
-          </div>
+          <Link to="/home" className="navbar-nav-link">HOME</Link>
 
           {/* Alumni Updates Dropdown */}
-          <div className="dropdown">
-            <button onClick={(e) => { e.stopPropagation(); toggleDropdown("updates"); }} className="dropdown-btn">
-              ALUMNI UPDATES ▼
-            </button>
-            {dropdown === "updates" && (
-              <div className="dropdown-menu">
-                <Link to="/alumni-status" className="dropdown-item">Alumni Status</Link>
-                <Link to="/alumni-achievements" className="dropdown-item">Alumni Achievements</Link>
-              </div>
-            )}
-          </div>
 
           {/* Reports Dropdown */}
-          <div className="dropdown">
-            <button onClick={(e) => { e.stopPropagation(); toggleDropdown("reports"); }} className="dropdown-btn">
+          <div className="navbar-dropdown">
+            <button onClick={(e) => { e.stopPropagation(); toggleDropdown("reports"); }} className="navbar-dropdown-btn">
               REPORTS ▼
             </button>
             {dropdown === "reports" && (
-              <div className="dropdown-menu">
-                <Link to="/news-events" className="dropdown-item">News & Events</Link>
-                <Link to="/alumni-survey" className="dropdown-item">Alumni Survey</Link>
-                <Link to="/report-data" className="dropdown-item">Reports</Link>
+              <div className="navbar-dropdown-menu">
+                <Link to="/newsevents" className="navbar-dropdown-item">News & Events</Link>
+                <Link to="/alumnisurvey" className="navbar-dropdown-item">Alumni Survey</Link>
               </div>
             )}
           </div>
 
           {/* Chats */}
-          <Link to="/chats" className="nav-link">CHATS</Link>
+          <Link to="/chats" className="navbar-nav-link">CHATS</Link>
 
           {/* Job Posting Dropdown */}
-          <div className="dropdown">
-            <button onClick={(e) => { e.stopPropagation(); toggleDropdown("jobs"); }} className="dropdown-btn">
+          <div className="navbar-dropdown">
+            <button onClick={(e) => { e.stopPropagation(); toggleDropdown("jobs"); }} className="navbar-dropdown-btn">
               JOB POSTING ▼
             </button>
             {dropdown === "jobs" && (
-              <div className="dropdown-menu">
-                <button onClick={handleAddJob} className="dropdown-item">Post a Job</button>
-                <Link to="/job" className="dropdown-item">Look for a Job</Link>
+              <div className="navbar-dropdown-menu">
+                <button onClick={handleAddJob} className="navbar-dropdown-item">Post a Job</button>
+                <Link to="/job" className="navbar-dropdown-item">Look for a Job</Link>
               </div>
             )}
           </div>
         </div>
       </div>
 
-      {/* Right Side - Log Out Button */}
-      <button className="logout-btn" onClick={() => navigate("/login")}>
-        LOG OUT
-      </button>
+      {/* Right Side - Alumni Profile Dropdown */}
+      <div className="navbar-dropdown">
+        <button onClick={(e) => { e.stopPropagation(); toggleDropdown("profile"); }} className="navbar-dropdown-btn">
+          {user ? `${user.name} ▼` : "ALUMNI PROFILE ▼"}
+        </button>
+        {dropdown === "profile" && (
+          <div className="navbar-dropdown-menu">
+            <Link to="/profile" className="navbar-dropdown-item">Edit Profile</Link>
+            <button className="navbar-dropdown-item" onClick={() => navigate("/login")}>Sign Out</button>
+          </div>
+        )}
+      </div>
 
       {/* Job Modal */}
       <JobModal

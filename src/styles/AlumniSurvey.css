@@ -1,0 +1,66 @@
+.alumnisurvey-homebox {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  .alumnisurvey-container {
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+  }
+  
+  .alumnisurvey-content {
+    margin-bottom: 40px;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .alumnisurvey-content h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    background: #f9486c;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .alumnisurvey-content p {
+    font-size: 1rem;
+    color: #333;
+    line-height: 1.6;
+  }
+  
+  .alumnisurvey-form label {
+    display: block;
+    margin-top: 10px;
+  }
+  
+  .alumnisurvey-form select,
+  .alumnisurvey-form input,
+  .alumnisurvey-form textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+  }
+  
+  .alumnisurvey-submit-btn {
+    padding: 10px 20px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background: #007bff;
+    color: white;
+    transition: background 0.3s;
+  }
+  
+  .alumnisurvey-submit-btn:hover {
+    background: #0056b3;
+  }

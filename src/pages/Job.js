@@ -1,42 +1,25 @@
-import React, { useState } from "react";
+// filepath: c:\Users\My PC\Desktop\PracticeJS\se-project\src\pages\Job.js
+import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar"; // Assuming you have a vertical navbar component
 import JobModal from "../components/JobModal"; // Import the JobModal component
+import { db } from "../firebaseConfig"; // Import Firestore database
+import { collection, getDocs } from "firebase/firestore";
 import "../styles/job.css"; // Assuming you have a separate CSS file for styling
 
 const Job = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [jobPositions, setJobPositions] = useState([
-    {
-      title: "UX Researcher",
-      company: "Pied Pipe",
-      location: "Anywhere (Remote)",
-      date: "31 Dec, 2021",
-      vacancies: 2,
-    },
-    {
-      title: "Senior Motion Designer",
-      company: "Pied Pipe",
-      location: "Anywhere (Remote)",
-      date: "31 Dec, 2021",
-      vacancies: 2,
-    },
-    {
-      title: "Junior Analyst- Cyber Intelligence",
-      company: "Pied Pipe",
-      location: "Anywhere (Remote)",
-      date: "31 Dec, 2021",
-      vacancies: 2,
-    },
-    {
-      title: "Cyber Intelligence Analyst",
-      company: "Pied Pipe",
-      location: "Anywhere (Remote)",
-      date: "31 Dec, 2021",
-      vacancies: 2,
-    },
-  ]);
-
+  const [jobPositions, setJobPositions] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    const fetchJobs = async () => {
+      const querySnapshot = await getDocs(collection(db, "jobs"));
+      const jobs = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      setJobPositions(jobs);
+    };
+
+    fetchJobs();
+  }, []);
 
   const filteredJobs = jobPositions.filter((job) =>
     job.title.toLowerCase().includes(searchTerm.toLowerCase())

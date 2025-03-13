@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { db } from "../firebaseConfig";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import Logo from "../assets/nobglogo.png";
+import Logo2 from "../assets/logo2.png"; // Import the second logo
 import "../styles/login.css"; // Import User Login styles
 
 const Login = () => {
@@ -91,7 +92,10 @@ const Login = () => {
 
       {/* Right Side - Sign Up */}
       <div className="login-signup-box">
-        <img src={Logo} alt="Alumni Portal Logo" className="signup-logo" />
+        <div className="signup-logos">
+          <img src={Logo} alt="Alumni Portal Logo" className="signup-logo" />
+          <img src={Logo2} alt="Second Logo" className="signup-logo" />
+        </div>
         <h2 className="login-signup-title">Welcome to Alumni Portal</h2>
         <p className="login-signup-text">Don’t have an account?</p>
         <button className="login-signup-button" onClick={() => navigate("/Signup")}>

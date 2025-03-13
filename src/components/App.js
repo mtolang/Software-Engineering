@@ -11,8 +11,10 @@ import AdminAlumni from "../pages/AdminAlumni";
 import AdminEvents from "../pages/AdminEvents";
 import AdminDonations from "../pages/AdminDonations";
 import ChatStatic from "../pages/Chats";
-import AlumniProfile from "../pages/Profile";
+import AlumniProfile from "../pages/MyAccount";
 import Job from "../pages/Job";
+import NewsEvents from "../pages/NewsEvents";
+import AlumniSurvey from "../pages/ALumniSurvey";
 
 const App = () => {
   const [userEmail, setUserEmail] = useState(null);
@@ -47,6 +49,8 @@ const App = () => {
         <Route path="/chats" element={<ChatStatic />} />
         <Route path="/profile" element={<AlumniProfile userEmail={userEmail} />} />
         <Route path="/job" element={<Job />} />
+        <Route path="/newsevents" element={<NewsEvents />} /> 
+        <Route path="/alumnisurvey" element={<AlumniSurvey />} />
       </Routes>
     </Router>
   );

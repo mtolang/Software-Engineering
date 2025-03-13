@@ -128,7 +128,12 @@
   /* White border */
   font-weight: bold;
 }
-
+.signup-logos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
 .signup-logo {
   width: 150px;
   /* Adjust size */

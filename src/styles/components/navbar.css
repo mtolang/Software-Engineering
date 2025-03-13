@@ -11,7 +11,7 @@
 }
   
 /* Logo */
-.navbar-logo .logo {
+.navbar-logo .navbar-logo-img {
     height: 50px;
     width: 50px;
 }
@@ -36,23 +36,24 @@
 }
   
 /* Navigation Links */
-.nav-link {
+.navbar-nav-link {
     text-decoration: none;
     color: white;
     transition: color 0.3s ease;
 }
   
-.nav-link:hover {
+.navbar-nav-link:hover {
     text-decoration: underline;
     color: #FFC1D1; /* Lighter shade for hover */
 }
   
 /* Dropdown */
-.dropdown {
+.navbar-dropdown {
     position: relative;
+    align-items: center;
 }
   
-.dropdown-btn {
+.navbar-dropdown-btn {
     background: none;
     border: none;
     color: white;
@@ -60,12 +61,12 @@
     cursor: pointer;
 }
   
-.dropdown-menu {
+.navbar-dropdown-menu {
     position: absolute;
     left: 0;
     bottom: 0;
     transform: translateY(100%);
-    width: 180px;
+    width: 140px;
     background-color: #D63F5D; /* Slightly darker shade */
     color: white;
     border-radius: 6px;
@@ -74,7 +75,7 @@
     z-index: 10;
 }
   
-.dropdown-item {
+.navbar-dropdown-item {
     display: block;
     padding: 10px;
     color: white;
@@ -82,12 +83,12 @@
     transition: background 0.3s ease;
 }
   
-.dropdown-item:hover {
+.navbar-dropdown-item:hover {
     background-color: #B7344D; /* Even darker shade for hover */
 }
   
 /* Logout Button */
-.logout-btn {
+.navbar-logout-btn {
     background-color: white;
     color: #F9486C;
     padding: 8px 16px;
@@ -97,6 +98,6 @@
     transition: background 0.3s ease;
 }
   
-.logout-btn:hover {
+.navbar-logout-btn:hover {
     background-color: #FFC1D1; /* Soft pink hover effect */
 }

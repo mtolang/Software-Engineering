@@ -6,6 +6,7 @@ import { doc, getDoc, updateDoc } from "firebase/firestore"; // Firestore functi
 const Profile = ({ userEmail }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [profile, setProfile] = useState(null);
+    const [activeTab, setActiveTab] = useState('profile');
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -62,25 +63,38 @@ const Profile = ({ userEmail }) => {
                     <p className="font-bold">Hi, <span className="font-extrabold">{profile.name?.toUpperCase()}!</span></p>
                 </div>
 
-                {/* Profile Fields */}
-                {Object.entries(profile).map(([key, value]) => (
-                    <div key={key} className="mb-4">
-                        <label className="block text-sm font-medium">{key.replace(/([A-Z])/g, ' $1').trim()}</label>
-                        {isEditing ? (
-                            <input
-                                type="text"
-                                name={key}
-                                value={value}
-                                onChange={handleChange}
-                                className="w-full p-2 border rounded-md"
-                            />
-                        ) : (
-                            <p className="p-2 border rounded-md bg-white">{value}</p>
-                        )}
-                    </div>
-                ))}
+                <div className="flex justify-center mb-4">
+                    <button onClick={() => setActiveTab('profile')} className={`py-2 px-4 ${activeTab === 'profile' ? 'bg-black text-white' : 'bg-white text-black'} rounded-md border border-black`}>Profile</button>
+                    <button onClick={() => setActiveTab('achievements')} className={`py-2 px-4 ${activeTab === 'achievements' ? 'bg-black text-white' : 'bg-white text-black'} rounded-md border border-black ml-2`}>Achievements</button>
+                </div>
 
-                {/* Buttons */}
+                {activeTab === 'profile' && (
+                    <div>
+                        {Object.entries(profile).map(([key, value]) => (
+                            <div key={key} className="mb-4">
+                                <label className="block text-sm font-medium">{key.replace(/([A-Z])/g, ' $1').trim()}</label>
+                                {isEditing ? (
+                                    <input
+                                        type="text"
+                                        name={key}
+                                        value={value}
+                                        onChange={handleChange}
+                                        className="w-full p-2 border rounded-md"
+                                    />
+                                ) : (
+                                    <p className="p-2 border rounded-md bg-white">{value}</p>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                )}
+
+                {activeTab === 'achievements' && (
+                    <div>
+                        {/* Achievements content will go here */}
+                    </div>
+                )}
+
                 <div className="flex justify-between mt-4">
                     <button onClick={handleEdit} className="py-2 px-4 bg-black text-white rounded-md">
                         {isEditing ? 'Save' : 'Modify'}
