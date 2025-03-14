@@ -1,106 +1,100 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { db } from "../firebaseConfig";
-import { doc, getDoc, updateDoc } from "firebase/firestore"; // Firestore functions
+import { db } from "../firebaseConfig"; // Import the Firestore configuration
+import { doc, getDoc } from "firebase/firestore";
+import '../styles/profile.css';
+import Navbar from "../components/Navbar"; // Import the Navbar component
 
-const Profile = ({ userEmail }) => {
-    const [isEditing, setIsEditing] = useState(false);
-    const [profile, setProfile] = useState(null);
-    const [activeTab, setActiveTab] = useState('profile');
-    const navigate = useNavigate();
+const Profile = () => {
+    const [user, setUser] = useState(null);
+    const [activeTab, setActiveTab] = useState('personal');
 
     useEffect(() => {
-        const fetchProfile = async () => {
-            try {
-                const docRef = doc(db, "alumni", userEmail);
-                const docSnap = await getDoc(docRef);
-
-                if (docSnap.exists()) {
-                    setProfile(docSnap.data());
-                } else {
-                    console.log("No such document!");
+        const fetchUserData = async () => {
+            const userData = localStorage.getItem("user");
+            if (userData) {
+                const user = JSON.parse(userData);
+                const userDoc = await getDoc(doc(db, "alumni", user.id));
+                if (userDoc.exists()) {
+                    setUser(userDoc.data());
                 }
-            } catch (error) {
-                console.error("Error fetching profile:", error);
             }
         };
+        fetchUserData();
+    }, []);
 
-        fetchProfile();
-    }, [userEmail]);
+    const renderPersonalInfo = () => (
+        <div className="details-section">
+            <label>LRN Number</label>
+            <input type="text" name="lrnNumber" value={user.lrnNumber || ''} readOnly />
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setProfile({ ...profile, [name]: value });
-    };
+            <label>ACR Number (for foreign student only)</label>
+            <input type="text" name="acrNumber" value={user.acrNumber || ''} readOnly />
 
-    const handleEdit = async () => {
-        if (isEditing) {
-            // Save the updated profile to Firestore
-            try {
-                const docRef = doc(db, "alumni", userEmail);
-                await updateDoc(docRef, profile);
-                console.log("Profile updated successfully!");
-            } catch (error) {
-                console.error("Error updating profile:", error);
-            }
-        }
-        setIsEditing(!isEditing);
-    };
+            <label>ID Number</label>
+            <input type="text" name="idNumber" value={user.id} readOnly />
 
-    if (!profile) {
-        return <div>Loading...</div>;
-    }
+            <label>Last Name</label>
+            <input type="text" name="lastName" value={user.name.split(' ')[0]} readOnly />
+
+            <label>First Name</label>
+            <input type="text" name="firstName" value={user.name.split(' ')[1]} readOnly />
+
+            <label>Middle Name</label>
+            <input type="text" name="middleName" value={user.middleName || ''} readOnly />
+
+            <label>Suffix</label>
+            <input type="text" name="suffix" value={user.suffix || ''} readOnly />
+
+            <label>Gender</label>
+            <input type="text" name="gender" value={user.gender || ''} readOnly />
+
+            <label>Date of Birth</label>
+            <input type="date" name="dob" value={user.dob || ''} readOnly />
+
+            <label>Place of Birth</label>
+            <input type="text" name="placeOfBirth" value={user.placeOfBirth || ''} readOnly />
+        </div>
+    );
+
+    const renderParentInfo = () => (
+        <div className="details-section">
+            {/* Add parent information fields here */}
+        </div>
+    );
+
+    const renderGuardianInfo = () => (
+        <div className="details-section">
+            {/* Add guardian information fields here */}
+        </div>
+    );
+
+    const renderEducationalBackground = () => (
+        <div className="details-section">
+            {/* Add educational background fields here */}
+        </div>
+    );
 
     return (
-        <div className="h-screen bg-pink-500 flex items-center justify-center">
-            <div className="bg-pink-300 w-full max-w-2xl p-8 rounded-lg shadow-lg">
-                <div className="text-center mb-6">
-                    <h1 className="text-2xl font-bold">My Account</h1>
+        <div className="profile-container">
+            <Navbar /> {/* Navbar at the top */}
+
+            <div className="profile-content">
+                <h2>Profile</h2>
+                <div className="tabs">
+                    <button className={activeTab === 'personal' ? 'active' : ''} onClick={() => setActiveTab('personal')}>Personal Information</button>
+                    <button className={activeTab === 'parent' ? 'active' : ''} onClick={() => setActiveTab('parent')}>Parent Information</button>
+                    <button className={activeTab === 'guardian' ? 'active' : ''} onClick={() => setActiveTab('guardian')}>Guardian Information</button>
+                    <button className={activeTab === 'education' ? 'active' : ''} onClick={() => setActiveTab('education')}>Educational Background</button>
                 </div>
 
-                <div className="flex items-center gap-4 mb-4">
-                    <img src="/path-to-profile-image.jpg" alt="Profile" className="w-16 h-16 rounded-full" />
-                    <p className="font-bold">Hi, <span className="font-extrabold">{profile.name?.toUpperCase()}!</span></p>
-                </div>
-
-                <div className="flex justify-center mb-4">
-                    <button onClick={() => setActiveTab('profile')} className={`py-2 px-4 ${activeTab === 'profile' ? 'bg-black text-white' : 'bg-white text-black'} rounded-md border border-black`}>Profile</button>
-                    <button onClick={() => setActiveTab('achievements')} className={`py-2 px-4 ${activeTab === 'achievements' ? 'bg-black text-white' : 'bg-white text-black'} rounded-md border border-black ml-2`}>Achievements</button>
-                </div>
-
-                {activeTab === 'profile' && (
-                    <div>
-                        {Object.entries(profile).map(([key, value]) => (
-                            <div key={key} className="mb-4">
-                                <label className="block text-sm font-medium">{key.replace(/([A-Z])/g, ' $1').trim()}</label>
-                                {isEditing ? (
-                                    <input
-                                        type="text"
-                                        name={key}
-                                        value={value}
-                                        onChange={handleChange}
-                                        className="w-full p-2 border rounded-md"
-                                    />
-                                ) : (
-                                    <p className="p-2 border rounded-md bg-white">{value}</p>
-                                )}
-                            </div>
-                        ))}
+                {user && (
+                    <div className="tab-content">
+                        {activeTab === 'personal' && renderPersonalInfo()}
+                        {activeTab === 'parent' && renderParentInfo()}
+                        {activeTab === 'guardian' && renderGuardianInfo()}
+                        {activeTab === 'education' && renderEducationalBackground()}
                     </div>
                 )}
-
-                {activeTab === 'achievements' && (
-                    <div>
-                        {/* Achievements content will go here */}
-                    </div>
-                )}
-
-                <div className="flex justify-between mt-4">
-                    <button onClick={handleEdit} className="py-2 px-4 bg-black text-white rounded-md">
-                        {isEditing ? 'Save' : 'Modify'}
-                    </button>
-                    <button onClick={() => navigate('/Login')} className="py-2 px-4 bg-white text-black rounded-md border border-black">Sign out</button>
-                </div>
             </div>
         </div>
     );

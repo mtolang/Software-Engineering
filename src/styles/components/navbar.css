@@ -21,18 +21,22 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    flex-grow: 1;
 }
   
 .navbar-title {
     font-size: 20px;
     font-weight: bold;
+    text-align: center;
 }
   
 .navbar-links {
     display: flex;
     gap: 20px;
-    font-size: 14px;
+    font-size: 17px;
     margin-top: 4px;
+    justify-content: center;
+    width: 100%;
 }
   
 /* Navigation Links */
@@ -59,13 +63,15 @@
     color: white;
     font-size: 14px;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
   
 .navbar-dropdown-menu {
     position: absolute;
-    left: 0;
-    bottom: 0;
-    transform: translateY(100%);
+    top: 100%; /* Position the dropdown menu directly below the button */
+    left: 0; /* Align the dropdown menu to the right */
     width: 140px;
     background-color: #D63F5D; /* Slightly darker shade */
     color: white;
@@ -100,4 +106,39 @@
   
 .navbar-logout-btn:hover {
     background-color: #FFC1D1; /* Soft pink hover effect */
+}
+
+/* Profile Button */
+.navbar-profile-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 50%;
+    padding: 5px;
+    margin-right: 20px;
+}
+
+.navbar-profile-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.profile-navbar-dropdown-menu{
+    position: absolute;
+    top: 100%; /* Position the dropdown menu directly below the button */
+    right: 0; /* Align the dropdown menu to the right */
+    width: 140px;
+    background-color: #D63F5D; /* Slightly darker shade */
+    color: white;
+    border-radius: 6px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    z-index: 10;
 }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { db } from "../firebaseConfig"; // ✅ Correct
-import { collection, getDocs, addDoc } from "firebase/firestore"; // Add addDoc
+import { collection, getDocs, addDoc, query, where } from "firebase/firestore"; // Add addDoc, query, where
 import VNavbar from "../components/VerticalNavbar";
 import AdminHomeModal from "../components/AdminHomeModal"; 
 import "../styles/adminhome.css";
@@ -48,7 +48,21 @@ const AdminHome = () => {
 
   const saveToAlumni = async (registrant) => {
     try {
-      await addDoc(collection(db, "alumni"), registrant);
+      // Fetch the number of alumni for the given year
+      const year = registrant.year_graduated.split("-")[0]; // Extract the year part
+      const q = query(collection(db, "alumni"), where("year_graduated", "==", registrant.year_graduated));
+      const querySnapshot = await getDocs(q);
+      const count = querySnapshot.size + 1; // Increment count for the new alumni
+
+      // Generate the alumni_id
+      const alumniID = `${year}${String(count).padStart(3, '0')}`; // e.g., 2024015
+
+      // Save data to Firestore
+      await addDoc(collection(db, "alumni"), {
+        ...registrant,
+        alumni_id: alumniID,
+      });
+
       console.log("Registrant saved to alumni:", registrant);
     } catch (error) {
       console.error("Error saving to alumni:", error);

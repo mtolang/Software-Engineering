@@ -57,9 +57,19 @@ const Signup = () => {
   };
 
   const handleConfirm = async () => {
-    // Now save data to Firestore when user confirms
     try {
+      // Fetch the number of registrants for the given year
+      const year = formData.yearGraduated.split("-")[0]; // Extract the year part
+      const q = query(collection(db, "registrants"), where("year_graduated", "==", formData.yearGraduated));
+      const querySnapshot = await getDocs(q);
+      const count = querySnapshot.size + 1; // Increment count for the new registrant
+
+      // Generate the registrant_ID
+      const registrantID = `${year}${String(count).padStart(3, '0')}`; // e.g., 2004006
+
+      // Save data to Firestore
       await addDoc(collection(db, "registrants"), {
+        registrant_ID: registrantID,
         name: `${formData.firstName} ${formData.lastName}`,
         email: formData.email,
         password: formData.password,

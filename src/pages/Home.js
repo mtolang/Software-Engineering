@@ -1,34 +1,63 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar"; // ✅ Import the Navbar component
 import "../styles/home.css"; // ✅ Import the separate CSS file
+import event1 from "../assets/event1.jpg"; // Import the event1 image
+import event2 from "../assets/event2.jpg"; // Import the event2 image
+import news3 from "../assets/news3.jpg"; // Import the news3 image
+import news4 from "../assets/news4.jpg"; // Import the news4 image
 
 const HomePage = () => {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const userData = localStorage.getItem("user");
+    if (userData) {
+      setUser(JSON.parse(userData));
+    }
+  }, []);
+
   return (
     <div className="homebox">
       <Navbar /> {/* ✅ Navbar at the top */}
       
       <section className="home" id="home">
-        <div className="home-text">
-          <div className="slide">
-            <span className="one">Hello</span>
-          </div>
-          <h1>ALUMNI</h1>
-          <h3>WELCOME TO <span>UIC ALUMNI PORTAL.</span></h3>
-          <p></p>
-          <a href="#about" className="visit-btn">EXPLORE NOW</a>
-        </div>
-      </section>
+      <div className="newsevents-homebox">
+            <div className="newsevents-container">
+                <div className="newsevents-latest-events">
+                    <h2>LATEST EVENTS</h2>
+                    <p>
+                        𝐈𝐍 𝐏𝐇𝐎𝐓𝐎𝐒 | Relive the excitement of the University of the Immaculate Conception’s (UIC) 2024-2025 College Intramurals! 🎉🏆
+                        With a spectacular opening, the much-awaited event took place from February 26 to March 1 at various venues, including the Fr Selga Main Campus. The enthusiasm of each participant ignited the place with energy, passion, and school spirit. 
+                        Four dynamic clusters, formed by the university’s esteemed colleges, came together in the spirit of camaraderie and competition, battling fiercely in various sports and recreational events. <br></br>From heart-stopping basketball games 🏀 to thrilling esports tournaments 🎮, breathtaking dance performances 💃 and a show-stopping pageant 👑, the UIC Intramurals was nothing short of extraordinary! 
+                        Beyond the competition, the event fostered unity, discipline, sportsmanship and pride among students, proving that UIC is not just about excellence in academics but also in sports and teamwork. 💪🔥  
+                        Photos by: Rigel Sarsaba, Christian Yuson, Shean Ng-Ee, UCO Interns 
+                        Edited by: Ronnie Mallo, UCO Intern
+                        Captioned by: Rigel Sarsaba, UCO Intern
+                        <strong>#Intramurals2025 #Kinaadman #UICDavao #ChooseUIC #FaithExcellenceService</strong>
+                    </p>
 
-      {/* About Section */}
-      <section className="about" id="about">
-        <div className="about-img">
-          <img src="pics/cropted profile.jpg" alt="Profile" />
-        </div>
-        <div className="about-text">
-          <h2>About </h2>
-          <h4><span>ALUMNI PORTAL</span></h4>
-          <p>Welcome to the Alumni Portal! This platform is designed to help you reconnect with fellow alumni, stay updated on events, explore job opportunities, and give back to the community. Whether you're looking to reminisce about your college days or expand your professional network, this portal is your gateway to staying connected.</p>
-          <a href="#about" className="visit-btn">Learn More</a>
+                    <div className="newsevents-event-images">
+                        <img src={event1} alt="Event 1" />
+                        <img src={event2} alt="Event 2" />
+                    </div>
+                </div>
+
+                <div className="newsevents-latest-news">
+                    <h2>LATEST NEWS</h2>
+                    <p>
+                        <strong>𝐈𝐍 𝐏𝐇𝐎𝐓𝐎𝐒 </strong>| UIC observes Ash Wednesday with a solemn Eucharistic celebration.
+                        At the heart of this sacred gathering was the Gospel of Matthew (6:1-6, 16-18), which reminds the faithful to fast, pray, and give alms with sincerity, seeking God’s grace rather than human praise.🙏✨
+                        The celebration also marked the beginning of Lent, a season of repentance, renewal, and spiritual preparation for the resurrection of Christ.🙏📿<br></br>
+                        <strong>#UICDavao <br></br></strong>
+                        <strong>#ChooseUIC<br></br></strong>
+                        <strong>#FaithExcellenceService</strong>
+                    </p>
+                    <div className="newsevents-event-images">
+                        <img src={news3} alt="News 3" />
+                        <img src={news4} alt="News 4" />
+                    </div>
+                </div>
+            </div>
         </div>
       </section>
 
@@ -39,12 +68,6 @@ const HomePage = () => {
           <h2>Services</h2>
         </div>
         <div className="services-content">
-          <div className="box">
-            <div className="s-icons"></div>
-            <h3>News & Events</h3>
-            <p>Stay informed about the latest happenings in our alumni community. From reunions and networking events to academic seminars and celebrations, never miss out on important updates!</p>
-            <a href="#services" className="read-more">Read More</a>
-          </div>
           <div className="box">
             <div className="s-icons"></div>
             <h3>Looking For A Job?</h3>

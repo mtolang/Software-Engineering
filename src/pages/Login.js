@@ -8,14 +8,8 @@ import "../styles/login.css"; // Import User Login styles
 
 const Login = () => {
   const navigate = useNavigate();
-  const [isAdmin, setIsAdmin] = useState(false); // State for switch
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const handleToggle = () => {
-    setIsAdmin(!isAdmin);
-    navigate(isAdmin ? "/Login" : "/AdminLogin"); // Navigate to the correct page
-  };
 
   const handleLogin = async () => {
     if (!email && !password) {
@@ -38,6 +32,12 @@ const Login = () => {
       const querySnapshot = await getDocs(q);
 
       if (!querySnapshot.empty) {
+        const userData = querySnapshot.docs[0].data();
+        const userWithAlumniId = {
+          ...userData,
+          alumni_id: querySnapshot.docs[0].id, // Include the document ID as alumni_id
+        };
+        localStorage.setItem("user", JSON.stringify(userWithAlumniId)); // Store user data in local storage
         navigate("/Home");
       } else {
         alert("Incorrect login details.");
@@ -52,15 +52,6 @@ const Login = () => {
     <div className="login-container">
       {/* Left Side - Login */}
       <div className="login-box">
-        <div className="login-switch-container">
-          <span>User</span>
-          <label className="login-switch">
-            <input type="checkbox" checked={isAdmin} onChange={handleToggle} />
-            <span className="login-slider"></span>
-          </label>
-          <span>Admin</span>
-        </div>
-      
         <h2 className="login-title">Sign In</h2>
 
         <div className="form-container">
@@ -83,7 +74,9 @@ const Login = () => {
           />
 
           <button className="login-button" onClick={handleLogin}>Sign In</button>
-
+          <h1 className="forgot-password" onClick={() => navigate("/adminlogin")}>
+            Administrator
+          </h1>
           <p className="forgot-password" onClick={() => navigate("/ForgotPass")}>
             Forgot Password?
           </p>

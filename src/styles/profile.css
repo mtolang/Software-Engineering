@@ -1,0 +1,75 @@
+.profile-container {
+    background-color: #ffffff;
+    width: 90%;
+    max-width: 1200px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    font-size: 15px;
+    margin: 0 auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.profile-content {
+    width: 100%;
+}
+
+h2 {
+    color: #F9486C;
+    font-size: 25px;
+    font-weight: 200;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.tabs button {
+    background-color: #FF1493;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    padding: 0.5rem 1.5rem;
+    cursor: pointer;
+    margin: 0 10px;
+    transition: background-color 0.3s ease;
+}
+
+.tabs button.active {
+    background-color: #8B008B;
+}
+
+.details-section {
+    background-color: #FFC0CB;
+    padding: 1rem;
+    border-radius: 15px;
+    width: 100%;
+    max-width: 800px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-top: 0.5rem;
+    font-weight: bold;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 0.5rem;
+}
+
+textarea {
+    resize: none;
+}
