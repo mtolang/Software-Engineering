@@ -88,3 +88,8 @@
 .adminevents-add-event-button:hover {
   background: #218838;
 }
+
+.adminevents-form-actions-add{
+  background-color : #FF1493;
+  color: #fff;
+}

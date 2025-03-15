@@ -3,19 +3,25 @@ import VNavbar from "../components/VerticalNavbar";
 import "../styles/adminevents.css"; // Assuming you have a similar CSS file for styling
 
 const AdminEvents = () => {
-  const [eventName, setEventName] = useState("");
-  const [category, setCategory] = useState("");
-  const [tags, setTags] = useState("");
-  const [status, setStatus] = useState("");
+  const [showForm, setShowForm] = useState(false);
+  const [eventDetails, setEventDetails] = useState({
+    eventName: "",
+    date: "",
+    time: "",
+    venue: "",
+    description: ""
+  });
 
-  const handleSearch = () => {
-    // Implement search functionality here
-    console.log("Searching for events with:", { eventName, category, tags, status });
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setEventDetails({ ...eventDetails, [name]: value });
   };
 
+  const handleAddEventClick = () => setShowForm(true);
+  const handleCancel = () => setShowForm(false);
   const handleAddEvent = () => {
-    // Implement add event functionality here
-    console.log("Adding a new event");
+    console.log("Event Added:", eventDetails);
+    setShowForm(false); // Hide the form after submission
   };
 
   return (
@@ -23,56 +29,62 @@ const AdminEvents = () => {
       <VNavbar />
       <div className="adminevents-content">
         <h1>Events</h1>
-        <div className="adminevents-search-section">
-          <h2>Advanced search</h2>
-          <div className="adminevents-search-fields">
-            <div className="adminevents-search-field">
-              <label>Event name</label>
-              <input
-                type="text"
-                value={eventName}
-                onChange={(e) => setEventName(e.target.value)}
-              />
-            </div>
-            <div className="adminevents-search-field">
-              <label>Category</label>
-              <select
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-              >
-                <option value="">No selected category</option>
-                <option value="category1">Category 1</option>
-                <option value="category2">Category 2</option>
-                <option value="category3">Category 3</option>
-              </select>
-            </div>
-            <div className="adminevents-search-field">
-              <label>Tag(s)</label>
-              <input
-                type="text"
-                value={tags}
-                onChange={(e) => setTags(e.target.value)}
-                placeholder="Choose tags to filter"
-              />
-            </div>
-            <div className="adminevents-search-field">
-              <label>Status</label>
-              <input
-                type="text"
-                value={status}
-                onChange={(e) => setStatus(e.target.value)}
-                placeholder="Add elements"
-              />
+        {!showForm ? (
+          <div className="adminevents-add-event-section">
+            <button
+              className="adminevents-add-event-button"
+              onClick={handleAddEventClick}
+            >
+              + Add an event
+            </button>
+          </div>
+        ) : (
+          <div className="adminevents-form">
+            <label>Event Name</label>
+            <input
+              type="text"
+              name="eventName"
+              value={eventDetails.eventName}
+              onChange={handleInputChange}
+            />
+
+            <label>Date</label>
+            <input
+              type="date"
+              name="date"
+              value={eventDetails.date}
+              onChange={handleInputChange}
+            />
+
+            <label>Time</label>
+            <input
+              type="time"
+              name="time"
+              value={eventDetails.time}
+              onChange={handleInputChange}
+            />
+
+            <label>Venue</label>
+            <input
+              type="text"
+              name="venue"
+              value={eventDetails.venue}
+              onChange={handleInputChange}
+            />
+
+            <label>Description</label>
+            <textarea
+              name="description"
+              value={eventDetails.description}
+              onChange={handleInputChange}
+            />
+
+            <div className="adminevents-form-actions" style={{ display: "flex", gap: "10px" }}>
+              <button className="adminevents-form-actions-add"onClick={handleAddEvent}>Add Event</button>
+              <button className="adminevents-form-actions-cancel"onClick={handleCancel}>Cancel Event</button>
             </div>
           </div>
-          <div className="adminevents-search-actions">
-            <button onClick={handleSearch}>Search</button>
-            <button onClick={() => { setEventName(""); setCategory(""); setTags(""); setStatus(""); }}>Reset search</button>
-          </div>
-        </div>
-        <div className="adminevents-add-event-section">
-          <button className="adminevents-add-event-button" onClick={handleAddEvent}>+ Add an event</button>
-        </div>
+        )}
       </div>
     </div>
   );
