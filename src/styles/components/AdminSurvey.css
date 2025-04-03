@@ -1,0 +1,75 @@
+.create-survey-container {
+    background-color: #ffffff;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 2rem;
+    max-width: 600px;
+    margin: 3rem auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.create-survey-container h1 {
+    font-size: 1.8rem;
+    color: #D81B60; /* Pink color theme */
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.create-survey-container label {
+    display: block;
+    margin-top: 1rem;
+    font-weight: 600;
+    color: #4A4A4A;
+}
+
+.create-survey-container input,
+.create-survey-container textarea {
+    width: 100%;
+    padding: 0.8rem;
+    margin-top: 0.3rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    outline: none;
+}
+
+.create-survey-container textarea {
+    min-height: 100px;
+    resize: none;
+}
+
+.create-survey-container input:focus,
+.create-survey-container textarea:focus {
+    border-color: #D81B60; 
+    box-shadow: 0 0 5px rgba(216, 27, 96, 0.3);
+}
+
+.form-actions {
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.form-actions button {
+    background-color: #D81B60;
+    color: #fff;
+    border: none;
+    padding: 0.7rem 2rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+.form-actions button:hover {
+    background-color: #B6184E; /* Darker pink for hover */
+}
+
+.form-actions button.cancel-btn {
+    background-color: #e0e0e0;
+    color: #4A4A4A;
+}
+
+.form-actions button.cancel-btn:hover {
+    background-color: #c7c7c7;
+}

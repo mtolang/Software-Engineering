@@ -73,3 +73,23 @@ input, textarea {
 textarea {
     resize: none;
 }
+
+.update-button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.update-button-container button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.update-button-container button:hover {
+  background-color: #0056b3;
+}

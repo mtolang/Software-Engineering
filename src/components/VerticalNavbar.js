@@ -18,14 +18,13 @@ const VerticalNavbar = () => {
         <div className="nav-section">
           <span className="section-title">GENERAL</span>
           <NavLink to="/events" className="nav-item" activeClassName="active">Events</NavLink>
-          <NavLink to="/survey" className="nav-item" activeClassName="active">Survey</NavLink>
+          <NavLink to="/adminsurvey" className="nav-item" activeClassName="active">Survey</NavLink>
           <NavLink to="/donations" className="nav-item" activeClassName="active">Donations</NavLink>
         </div>
 
         <div className="nav-section">
           <span className="section-title">USER MANAGEMENT</span>
           <NavLink to="/adminalumni" className="nav-item" activeClassName="active">Alumni</NavLink>
-          <NavLink to="/adminregistrants" className="nav-item" activeClassName="active">Registrants</NavLink>
           <NavLink to="/adminlogin" className="nav-item" activeClassName="active">Logout</NavLink>
         </div>
       </nav>

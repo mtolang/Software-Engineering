@@ -177,13 +177,64 @@
 
 .newsevents-container {
   display: flex;
-  flex-direction: column;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.newsevents-preview {
+  flex: 3;
   padding: 20px;
-  background: #f8f9fa;
-  border-radius: 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  margin: 20px 0;
-  box-sizing: border-box; /* Ensure padding is included in the element's total width and height */
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.newsevents-sidebar {
+  flex: 1;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.newsevents-search-bar {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.newsevents-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.newsevents-list li {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+}
+
+.newsevents-list li:hover {
+  background-color: #f1f1f1;
+}
+
+.newsevents-list li.active {
+  background-color: #007bff;
+  color: white;
+}
+
+.newsevents-list li h4 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.newsevents-list li p {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
 }
 
 .newsevents-latest-events,
@@ -228,3 +279,53 @@
   border-radius: 10px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
+
+/* Colleges Section */
+.colleges {
+  padding: 50px 20px;
+  background-color: #f9f9f9;
+}
+
+.colleges .main-text {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.colleges-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.colleges-content .box {
+  flex: 1 1 calc(33.333% - 20px); /* 3 boxes per row */
+  max-width: calc(33.333% - 20px);
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.colleges-content .box h3 {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.colleges-content .box .visit-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 0.9rem;
+}
+
+.colleges-content .box .visit-button:hover {
+  background-color: #0056b3;
+}
+

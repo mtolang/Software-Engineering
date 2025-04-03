@@ -19,7 +19,7 @@ const AdminLogin = () => {
           <label className="label">Password</label>
           <input type="password" className="input" placeholder="Enter your password" />
 
-          <button className="login-button" onClick={() => navigate("/adminregistrants")}>Login</button>
+          <button className="login-button" onClick={() => navigate("/adminalumni")}>Login</button>
           <h1 className="forgot-password" onClick={() => navigate("/login")}>
             Alumni
           </h1>

@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { db } from "../firebaseConfig"; // Import the Firestore configuration
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import '../styles/profile.css';
 import Navbar from "../components/Navbar"; // Import the Navbar component
 
 const Profile = () => {
     const [user, setUser] = useState(null);
     const [activeTab, setActiveTab] = useState('personal');
+    const [formData, setFormData] = useState({}); // State to hold editable form data
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -16,43 +17,115 @@ const Profile = () => {
                 const userDoc = await getDoc(doc(db, "alumni", user.id));
                 if (userDoc.exists()) {
                     setUser(userDoc.data());
+                    setFormData(userDoc.data()); // Initialize form data with user data
                 }
             }
         };
         fetchUserData();
     }, []);
 
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
+
+    const handleUpdate = async () => {
+        if (user) {
+            try {
+                const userRef = doc(db, "alumni", user.id);
+                await updateDoc(userRef, formData); // Update the database with the new data
+                alert("Profile updated successfully!");
+            } catch (error) {
+                console.error("Error updating profile:", error);
+                alert("Failed to update profile. Please try again.");
+            }
+        }
+    };
+
     const renderPersonalInfo = () => (
         <div className="details-section">
             <label>LRN Number</label>
-            <input type="text" name="lrnNumber" value={user.lrnNumber || ''} readOnly />
+            <input
+                type="text"
+                name="lrnNumber"
+                value={formData.lrnNumber || ''}
+                onChange={handleInputChange}
+            />
 
             <label>ACR Number (for foreign student only)</label>
-            <input type="text" name="acrNumber" value={user.acrNumber || ''} readOnly />
+            <input
+                type="text"
+                name="acrNumber"
+                value={formData.acrNumber || ''}
+                onChange={handleInputChange}
+            />
 
             <label>ID Number</label>
-            <input type="text" name="idNumber" value={user.id} readOnly />
+            <input
+                type="text"
+                name="id"
+                value={formData.id || ''}
+                onChange={handleInputChange}
+            />
 
             <label>Last Name</label>
-            <input type="text" name="lastName" value={user.name.split(' ')[0]} readOnly />
+            <input
+                type="text"
+                name="lastName"
+                value={formData.lastName || ''}
+                onChange={handleInputChange}
+            />
 
             <label>First Name</label>
-            <input type="text" name="firstName" value={user.name.split(' ')[1]} readOnly />
+            <input
+                type="text"
+                name="firstName"
+                value={formData.firstName || ''}
+                onChange={handleInputChange}
+            />
 
             <label>Middle Name</label>
-            <input type="text" name="middleName" value={user.middleName || ''} readOnly />
+            <input
+                type="text"
+                name="middleName"
+                value={formData.middleName || ''}
+                onChange={handleInputChange}
+            />
 
             <label>Suffix</label>
-            <input type="text" name="suffix" value={user.suffix || ''} readOnly />
+            <input
+                type="text"
+                name="suffix"
+                value={formData.suffix || ''}
+                onChange={handleInputChange}
+            />
 
             <label>Gender</label>
-            <input type="text" name="gender" value={user.gender || ''} readOnly />
+            <input
+                type="text"
+                name="gender"
+                value={formData.gender || ''}
+                onChange={handleInputChange}
+            />
 
             <label>Date of Birth</label>
-            <input type="date" name="dob" value={user.dob || ''} readOnly />
+            <input
+                type="date"
+                name="dob"
+                value={formData.dob || ''}
+                onChange={handleInputChange}
+            />
 
             <label>Place of Birth</label>
-            <input type="text" name="placeOfBirth" value={user.placeOfBirth || ''} readOnly />
+            <input
+                type="text"
+                name="placeOfBirth"
+                value={formData.placeOfBirth || ''}
+                onChange={handleInputChange}
+            />
         </div>
     );
 
@@ -95,6 +168,11 @@ const Profile = () => {
                         {activeTab === 'education' && renderEducationalBackground()}
                     </div>
                 )}
+
+                {/* Update Button */}
+                <div className="update-button-container">
+                    <button onClick={handleUpdate}>Update</button>
+                </div>
             </div>
         </div>
     );
