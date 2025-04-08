@@ -1,11 +1,10 @@
 .create-survey-container {
+    display: flex;
     background-color: #ffffff;
     border: 2px solid #e0e0e0;
     border-radius: 12px;
-    padding: 2rem;
-    max-width: 600px;
-    margin: 3rem auto;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-left: 200px;
 }
 
 .create-survey-container h1 {
@@ -72,4 +71,194 @@
 
 .form-actions button.cancel-btn:hover {
     background-color: #c7c7c7;
+}
+
+/* Admin Survey Container */
+.admin-survey-container {
+    display: flex;
+    margin-left: 280px;
+    margin-right: 20px;
+    min-height: 100vh;
+}
+
+/* Admin Survey Content */
+.admin-survey-content {
+    flex: 1;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Tabs */
+.tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.tabs button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #e9ecef;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.tabs button.active {
+    background-color: #007bff;
+    color: #fff;
+}
+
+/* View Surveys Container */
+.view-surveys-container {
+    display: flex;
+    gap: 20px;
+}
+
+/* Search and Filter Section */
+.search-filter-section {
+    flex: 1;
+    max-width: 250px;
+    padding: 10px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Search Bar */
+.search-bar {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+/* Filter Buttons */
+.filter-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.filter-button {
+    padding: 10px;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.filter-button.active {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
+}
+
+.filter-button:hover {
+    background-color: #0056b3;
+    color: #fff;
+}
+
+/* Survey List Section */
+.survey-list {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Survey Item */
+.survey-item {
+    background: #ffffff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-left: 5px solid #d81b60;
+}
+
+.survey-item h2 {
+    margin-bottom: 10px;
+    color: #d81b60;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.survey-item p {
+    margin: 5px 0;
+    color: #4a4a4a;
+    font-size: 14px;
+}
+
+.edit-button {
+    margin-top: 10px;
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.edit-button:hover {
+    background-color: #0056b3;
+}
+
+.tags-dropdown {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.create-survey-tab,
+.view-surveys-tab {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.create-survey-tab label,
+.view-surveys-tab label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.create-survey-tab input,
+.create-survey-tab textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.create-survey-button {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.create-survey-button:hover {
+    background-color: #218838;
 }

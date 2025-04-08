@@ -109,13 +109,19 @@ const Signup = () => {
         <label className="signup-label">Year Graduated</label>
         <input type="date" name="yearGraduated" className="signup-input" value={formData.yearGraduated} onChange={handleChange} />
 
-        <label className="signup-label">Course Graduated</label>
+        <label className="signup-label">Colleges Graduated</label>
         <select name="courseGraduated" className="signup-select" value={formData.courseGraduated} onChange={handleChange}>
-          <option value="">Select Course</option>
-          <option>BSIT</option>
-          <option>BSCS</option>
-          <option>BSECE</option>
-          <option>BSEE</option>
+          <option value="">Select Colleges</option>
+          <option>College of Accounting and Business Education</option>
+          <option>College of Arts and Humanities</option>
+          <option>College of Computer Studies</option>
+          <option>College of Engineering and Architecture</option>
+          <option>College of Human Environmental Science and Food Studies</option>
+          <option>College of Medical and Biological Sciences</option>
+          <option>College of Music</option>
+          <option>College of Nursing</option>
+          <option>College of Pharmacy and Chemistry</option>
+          <option>College of Teacher Education</option>
         </select>
 
         <label className="signup-label">Current Address</label>
