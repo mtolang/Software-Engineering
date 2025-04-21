@@ -10,6 +10,7 @@ import AlumniProfile from "../pages/MyAccount";
 import Job from "../pages/Job";
 import NewsEvents from "../pages/NewsEvents";
 import AlumniSurvey from "../pages/ALumniSurvey";
+import AchievementStatus from '../pages/AchievementStatus'; //
 
 // Administrator Pages
 import AdminLogin from "../pages/AdminLogin";
@@ -49,6 +50,7 @@ const App = () => {
         <Route path="/job" element={<Job />} />
         <Route path="/newsevents" element={<NewsEvents />} />
         <Route path="/alumnisurvey" element={<AlumniSurvey />} />
+        <Route path="/achievements" element={<AchievementStatus />} />
 
         {/* Administrator Routes */}
         <Route path="/adminlogin" element={<AdminLogin />} />

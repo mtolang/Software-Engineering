@@ -8,6 +8,7 @@ const HomePage = () => {
   const [events, setEvents] = useState([]); // State to store events
   const [user, setUser] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [expandedItems, setExpandedItems] = useState({}); // Track expanded items
   const [collegesList] = useState([
     "College of Accounting and Business Education",
     "College of Arts and Humanities",
@@ -60,6 +61,14 @@ const HomePage = () => {
     fetchEvents();
   }, []);
 
+  // Toggle "See more..." for long descriptions
+  const toggleExpand = (id) => {
+    setExpandedItems((prev) => ({
+      ...prev,
+      [id]: !prev[id], // Toggle the expanded state for the specific item
+    }));
+  };
+
   // Filter events based on user's college and search query
   const filteredEvents = events.filter((event) => {
     const userCollegeTag = user?.course_graduated?.toLowerCase().includes("computer studies")
@@ -97,36 +106,34 @@ const HomePage = () => {
         <div className="newsevents-container">
           {/* Left Side: Event Previews */}
           <div className="newsevents-preview">
-            {filteredEvents.map((event) => {
-              // Parse the date field
-              const eventDate = event.date
-                ? new Date(event.date).toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })
-                : "N/A";
-
-              const eventTime = event.date
-                ? new Date(event.date).toLocaleTimeString("en-US", {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })
-                : "N/A";
-
-              return (
+            {filteredEvents.length > 0 ? (
+              filteredEvents.map((event) => (
                 <div key={event.id} className="newsevents-latest-events">
                   <h2>{event.eventName || "Untitled Event"}</h2>
-                  <p>{event.description || "No description available."}</p>
                   <p>
-                    <strong>Date:</strong> {eventDate} <br />
-                    <strong>Time:</strong> {eventTime} <br />
+                    {expandedItems[event.id] || event.description.length <= 150
+                      ? event.description
+                      : `${event.description.slice(0, 150)}...`}
+                  </p>
+                  {event.description.length > 150 && (
+                    <span
+                      className="see-more-btn"
+                      onClick={() => toggleExpand(event.id)}
+                    >
+                      {expandedItems[event.id] ? "See less" : "See more..."}
+                    </span>
+                  )}
+                  <p>
+                    <strong>Date:</strong> {event.date || "N/A"} <br />
+                    <strong>Time:</strong> {event.time || "N/A"} <br />
                     <strong>Venue:</strong> {event.venue || "N/A"} <br />
                     <strong>Tags:</strong> {event.tags || "N/A"}
                   </p>
                 </div>
-              );
-            })}
+              ))
+            ) : (
+              <p>No events found.</p>
+            )}
           </div>
 
           {/* Right Side: Search Bar */}

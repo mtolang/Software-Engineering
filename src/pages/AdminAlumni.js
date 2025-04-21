@@ -2,86 +2,59 @@ import React, { useState, useEffect, useRef } from "react";
 import { db } from "../firebaseConfig";
 import { collection, getDocs } from "firebase/firestore";
 import VNavbar from "../components/VerticalNavbar";
-import AdminAlumniModal from "../components/AdminAlumniModal";
-import AdminHomeModal from "../components/AdminHomeModal"; // Import AdminHomeModal
 import "../styles/adminalumni.css";
 
 const AdminAlumniPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [registrantsDropdownOpen, setRegistrantsDropdownOpen] = useState(null); // Separate state for registrants dropdown
-  const [alumniDropdownOpen, setAlumniDropdownOpen] = useState(null); // Separate state for alumni dropdown
-  const [modalOpen, setModalOpen] = useState(false);
-  const [homeModalOpen, setHomeModalOpen] = useState(false); // For AdminHomeModal
-  const [selectedAlumni, setSelectedAlumni] = useState(null);
-  const [selectedRegistrant, setSelectedRegistrant] = useState(null); // For registrants
+  const [registrantsDropdownOpen, setRegistrantsDropdownOpen] = useState(null);
+  const [alumniDropdownOpen, setAlumniDropdownOpen] = useState(null);
   const [registrants, setRegistrants] = useState([]);
   const [alumni, setAlumni] = useState([]);
 
-  const registrantsDropdownRef = useRef([]); // Initialize as an empty array
-  const alumniDropdownRef = useRef([]); // Initialize as an empty array
+  const registrantsDropdownRef = useRef([]);
+  const alumniDropdownRef = useRef([]);
 
-  // Function to fetch data for registrants and alumni
+  // Fetch data for registrants and alumni
   const fetchData = async () => {
     try {
-      // Fetch alumni data
-      const alumniSnapshot = await getDocs(collection(db, "alumni"));
-      const alumniList = alumniSnapshot.docs.map(doc => {
-        const data = doc.data();
-        return {
-          id: doc.id,
-          name: data.name,
-          email: data.email,
-          course_graduated: data.course_graduated || "N/A",
-          year_graduated: data.year_graduated || "N/A",
-          date_registered: data.date_registered?.seconds
-            ? new Date(data.date_registered.seconds * 1000).toLocaleString()
-            : "N/A",
-        };
-      });
-      setAlumni(alumniList);
-
-      // Fetch registrants data
       const registrantsSnapshot = await getDocs(collection(db, "registrants"));
-      const registrantsList = registrantsSnapshot.docs.map(doc => {
+      const registrantsList = registrantsSnapshot.docs.map((doc) => {
         const data = doc.data();
         return {
           id: doc.id,
-          name: data.name,
-          email: data.email,
-          course_graduated: data.course_graduated || "N/A",
-          year_graduated: data.year_graduated || "N/A",
+          ...data,
           date_registered: data.date_registered?.seconds
             ? new Date(data.date_registered.seconds * 1000).toLocaleString()
-            : "N/A",
+            : "N/A", // Convert Firestore Timestamp to readable date
         };
       });
       setRegistrants(registrantsList);
+
+      const alumniSnapshot = await getDocs(collection(db, "alumni"));
+      const alumniList = alumniSnapshot.docs.map((doc) => {
+        const data = doc.data();
+        return {
+          id: doc.id,
+          ...data,
+          date_registered: data.date_registered?.seconds
+            ? new Date(data.date_registered.seconds * 1000).toLocaleString()
+            : "N/A", // Convert Firestore Timestamp to readable date
+        };
+      });
+      setAlumni(alumniList);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
 
   useEffect(() => {
-    fetchData(); // Fetch data on component mount
+    fetchData();
   }, []);
-
-  // Function to handle accepting a registrant
-  const handleAcceptRegistrant = async (registrant) => {
-    try {
-      // Perform the logic to accept the registrant (e.g., move them to the alumni collection)
-      console.log(`Accepting registrant: ${registrant.name}`);
-
-      // After accepting, refresh the data
-      await fetchData();
-    } catch (error) {
-      console.error("Error accepting registrant:", error);
-    }
-  };
 
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      // Check for registrants dropdown
+      // Close registrants dropdown
       if (
         registrantsDropdownRef.current.every(
           (ref) => ref && !ref.contains(event.target)
@@ -90,7 +63,7 @@ const AdminAlumniPage = () => {
         setRegistrantsDropdownOpen(null);
       }
 
-      // Check for alumni dropdown
+      // Close alumni dropdown
       if (
         alumniDropdownRef.current.every(
           (ref) => ref && !ref.contains(event.target)
@@ -105,6 +78,12 @@ const AdminAlumniPage = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  // Function to handle messaging
+  const handleMessage = (email) => {
+    const gmailComposeUrl = `https://mail.google.com/mail/u/0/#inbox?compose=new&to=${email}`;
+    window.open(gmailComposeUrl, "_blank");
+  };
 
   return (
     <div className="adminalumni-container">
@@ -127,7 +106,6 @@ const AdminAlumniPage = () => {
           <table>
             <thead>
               <tr>
-                <th><input type="checkbox" /></th>
                 <th>Name and Email</th>
                 <th>Date Registered</th>
                 <th>Year Graduated</th>
@@ -137,9 +115,8 @@ const AdminAlumniPage = () => {
             <tbody>
               {registrants.filter((registrant) =>
                 registrant.name?.toLowerCase().includes(searchQuery.toLowerCase())
-              ).map((registrant, index) => ( // Show all rows
+              ).map((registrant, index) => (
                 <tr key={registrant.id}>
-                  <td><input type="checkbox" /></td>
                   <td>
                     <strong>{registrant.name}</strong>
                     <br />
@@ -156,16 +133,22 @@ const AdminAlumniPage = () => {
                     >
                       <button
                         className="adminalumni-dropdown-btn"
-                        onClick={() => setRegistrantsDropdownOpen(registrantsDropdownOpen === index ? null : index)}
+                        onClick={() =>
+                          setRegistrantsDropdownOpen(
+                            registrantsDropdownOpen === index ? null : index
+                          )
+                        }
                       >
                         •••
                       </button>
-                      {registrantsDropdownOpen === index ? (
+                      {registrantsDropdownOpen === index && (
                         <div className="adminalumni-dropdown-menu show">
-                          <p onClick={() => { setSelectedRegistrant(registrant); setHomeModalOpen(true); }}>View Details</p>
-                          <p onClick={() => handleAcceptRegistrant(registrant)}>Accept</p>
+                          <p>View Details</p>
+                          <p onClick={() => handleMessage(registrant.email)}>
+                            Message
+                          </p>
                         </div>
-                      ) : null}
+                      )}
                     </div>
                   </td>
                 </tr>
@@ -182,7 +165,6 @@ const AdminAlumniPage = () => {
           <table>
             <thead>
               <tr>
-                <th><input type="checkbox" /></th>
                 <th>Name and Email</th>
                 <th>Course Graduated</th>
                 <th>Year Graduated</th>
@@ -192,9 +174,8 @@ const AdminAlumniPage = () => {
             <tbody>
               {alumni.filter((alumnus) =>
                 alumnus.name?.toLowerCase().includes(searchQuery.toLowerCase())
-              ).map((alumnus, index) => ( // Show all rows
+              ).map((alumnus, index) => (
                 <tr key={alumnus.id}>
-                  <td><input type="checkbox" /></td>
                   <td>
                     <strong>{alumnus.name}</strong>
                     <br />
@@ -211,16 +192,22 @@ const AdminAlumniPage = () => {
                     >
                       <button
                         className="adminalumni-dropdown-btn"
-                        onClick={() => setAlumniDropdownOpen(alumniDropdownOpen === index ? null : index)}
+                        onClick={() =>
+                          setAlumniDropdownOpen(
+                            alumniDropdownOpen === index ? null : index
+                          )
+                        }
                       >
                         •••
                       </button>
-                      {alumniDropdownOpen === index ? (
+                      {alumniDropdownOpen === index && (
                         <div className="adminalumni-dropdown-menu show">
-                          <p onClick={() => { setSelectedAlumni(alumnus); setModalOpen(true); }}>View Details</p>
-                          <p>Send Message</p>
+                          <p>View Details</p>
+                          <p onClick={() => handleMessage(alumnus.email)}>
+                            Message
+                          </p>
                         </div>
-                      ) : null}
+                      )}
                     </div>
                   </td>
                 </tr>
@@ -229,24 +216,6 @@ const AdminAlumniPage = () => {
           </table>
         </div>
       </div>
-
-      {/* Modals */}
-      <AdminAlumniModal
-        isOpen={modalOpen}
-        onClose={() => {
-          setModalOpen(false);
-          fetchData(); // Refresh data when the modal closes
-        }}
-        alumni={selectedAlumni}
-      />
-      <AdminHomeModal
-        isOpen={homeModalOpen}
-        onClose={() => {
-          setHomeModalOpen(false);
-          fetchData(); // Refresh data when the modal closes
-        }}
-        registrant={selectedRegistrant}
-      />
     </div>
   );
 };

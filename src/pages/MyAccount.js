@@ -5,12 +5,14 @@ import profilepic from '../assets/profile.webp';
 import EditProfile from '../components/editprof.js'; // Import the EditProfile component
 import { db } from "../firebaseConfig"; // Import the Firestore configuration
 import { doc, getDoc, updateDoc } from "firebase/firestore"; // Import updateDoc
+import AchievementStatus from './AchievementStatus'; // Import AchievementStatus component
 
 const MyAccount = () => {
     const [user, setUser] = useState(null);
     const [userDocRef, setUserDocRef] = useState(null);
     const [activeTab, setActiveTab] = useState('profile');
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [currentPage, setCurrentPage] = useState('dashboard'); // Example state to track the current page
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -70,14 +72,34 @@ const MyAccount = () => {
 
             <label>Current address</label>
             <textarea name="current_address" value={user.current_address} readOnly></textarea>
+
+            <div className="flex justify-between mt-4">
+                <button
+                    className="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded-full"
+                    onClick={() => setActiveTab('achievements')} // Navigate back to Achievements
+                >
+                    ← Back
+                </button>
+                <button
+                    className="bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 px-4 rounded-full"
+                    onClick={() => setIsEditModalOpen(true)} // Open the edit modal
+                >
+                    Modify
+                </button>
+            </div>
         </div>
     );
 
     const renderAchievements = () => (
         <div className="achievements-section">
-            {/* Add achievements content here */}
+            <AchievementStatus /> {/* Render AchievementStatus component */}
         </div>
     );
+
+    const navigateToAchievements = () => {
+        setCurrentPage('achievements');
+        setActiveTab('achievements');
+    };
 
     return (
         <div className="homebox">
@@ -92,18 +114,20 @@ const MyAccount = () => {
 
                 <div className="tabs">
                     <button className={activeTab === 'profile' ? 'active' : ''} onClick={() => setActiveTab('profile')}>Profile</button>
-                    <button className={activeTab === 'achievements' ? 'active' : ''} onClick={() => setActiveTab('achievements')}>Achievements</button>
+                    <button className={activeTab === 'achievements' ? 'active' : ''} onClick={navigateToAchievements}>Achievements</button>
                 </div>
 
                 {user && (activeTab === 'profile' ? renderProfile() : renderAchievements())}
 
-                <div className="button-section">
-                    <button className="modify-btn" onClick={() => setIsEditModalOpen(true)}>Modify</button>
-                    <button className="signout-btn" onClick={() => {
-                        localStorage.removeItem("user");
-                        window.location.href = "/login";
-                    }}>Sign out</button>
-                </div>
+                {currentPage !== 'achievements' && (
+                    <div className="button-section">
+                        <button className="modify-btn" onClick={() => setIsEditModalOpen(true)}>Modify</button>
+                        <button className="signout-btn" onClick={() => {
+                            localStorage.removeItem("user");
+                            window.location.href = "/login";
+                        }}>Sign out</button>
+                    </div>
+                )}
             </div>
 
             {isEditModalOpen && <EditProfile user={user} userDocRef={userDocRef} onSave={handleSave} onClose={() => setIsEditModalOpen(false)} />}

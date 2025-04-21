@@ -14,6 +14,7 @@ const Signup = () => {
     yearGraduated: "",
     courseGraduated: "",
     currentAddress: "",
+    phoneNumber: "+63", // Pre-filled with +63
   });
   const [error, setError] = useState("");
 
@@ -32,7 +33,8 @@ const Signup = () => {
       !formData.password ||
       !formData.yearGraduated ||
       !formData.courseGraduated ||
-      !formData.currentAddress
+      !formData.currentAddress ||
+      !formData.phoneNumber
     ) {
       setError("Please fill out all fields.");
       return;
@@ -58,24 +60,44 @@ const Signup = () => {
 
   const handleConfirm = async () => {
     try {
-      // Fetch the number of registrants for the given year
-      const year = formData.yearGraduated.split("-")[0]; // Extract the year part
-      const q = query(collection(db, "registrants"), where("year_graduated", "==", formData.yearGraduated));
-      const querySnapshot = await getDocs(q);
-      const count = querySnapshot.size + 1; // Increment count for the new registrant
+      // Map courses to roles
+      const courseToRoleMap = {
+        "College of Accounting and Business Education": "CABE",
+        "College of Arts and Humanities": "CAH",
+        "College of Computer Studies": "CCS",
+        "College of Engineering and Architecture": "CEA",
+        "College of Human Environmental Science and Food Studies": "CHEFS",
+        "College of Medical and Biological Sciences": "CMBS",
+        "College of Music": "CM",
+        "College of Nursing": "CN",
+        "College of Pharmacy and Chemistry": "CPC",
+        "College of Teacher Education": "CTE",
+      };
 
-      // Generate the registrant_ID
-      const registrantID = `${year}${String(count).padStart(3, '0')}`; // e.g., 2004006
+      // Determine the role based on the course graduated
+      const role = courseToRoleMap[formData.courseGraduated] || "Unknown";
+
+      // Use the full graduation date (e.g., 20250418)
+      const fullDate = formData.yearGraduated.replace(/-/g, ""); // Remove dashes from the date
+
+      // Fetch the latest count of registrants
+      const registrantsSnapshot = await getDocs(collection(db, "registrants"));
+      const count = registrantsSnapshot.size + 1; // Increment count for the new registrant
+
+      // Generate the unique registrant_ID
+      const registrantID = `${fullDate}${String(count).padStart(4, "0")}`; // e.g., 202504180008
 
       // Save data to Firestore
       await addDoc(collection(db, "registrants"), {
-        registrant_ID: registrantID,
+        registrant_ID: registrantID, // Automatically generated registrant ID
         name: `${formData.firstName} ${formData.lastName}`,
         email: formData.email,
         password: formData.password,
         year_graduated: formData.yearGraduated,
         course_graduated: formData.courseGraduated,
         current_address: formData.currentAddress,
+        phone_number: formData.phoneNumber, // Save phone number
+        roles: role, // Automatically assign roles based on course_graduated
         date_registered: serverTimestamp(),
       });
 
@@ -126,6 +148,22 @@ const Signup = () => {
 
         <label className="signup-label">Current Address</label>
         <input type="text" name="currentAddress" placeholder="Location" className="signup-input" value={formData.currentAddress} onChange={handleChange} />
+
+        <label className="signup-label">Phone Number</label>
+        <input
+          type="tel" // Ensures the input is for telephone numbers
+          name="phoneNumber"
+          placeholder="+63"
+          className="signup-input"
+          value={formData.phoneNumber}
+          onChange={(e) => {
+            // Allow only numbers and the "+" character
+            const value = e.target.value;
+            if (/^\+?[0-9]*$/.test(value)) {
+              setFormData({ ...formData, phoneNumber: value });
+            }
+          }}
+        />
 
         <button className="signup-button" onClick={handleSubmit}>Submit</button>
         <button className="signup-back-button" onClick={() => navigate("/Login")}>Back</button>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, addDoc } from "firebase/firestore";
 import { db } from "../firebaseConfig";
 import VNavbar from "../components/VerticalNavbar";
 import AdminSurveyModal from "../components/AdminSurveyModal";
@@ -11,6 +11,12 @@ const AdminSurvey = () => {
   const [searchQuery, setSearchQuery] = useState(""); // Search query
   const [filterTag, setFilterTag] = useState("all"); // Selected tag for filtering
   const [editingSurvey, setEditingSurvey] = useState(null); // Survey being edited
+  const [newSurvey, setNewSurvey] = useState({
+    SurveyTitle: "",
+    Description: "",
+    Link: "",
+    Tags: "CCS",
+  });
 
   // Fetch surveys from Firestore
   useEffect(() => {
@@ -29,6 +35,42 @@ const AdminSurvey = () => {
 
     fetchSurveys();
   }, []);
+
+  // Handle creating a new survey
+  const handleCreateSurvey = async () => {
+    if (!newSurvey.SurveyTitle || !newSurvey.Description || !newSurvey.Link) {
+      alert("Please fill out all fields before creating a survey.");
+      return;
+    }
+
+    try {
+      // Save the new survey to Firestore
+      await addDoc(collection(db, "survey"), {
+        ...newSurvey,
+        surveyID: `${newSurvey.Tags}${surveys.length + 1}`.toUpperCase(), // Generate a unique surveyID
+      });
+
+      alert("Survey created successfully!");
+
+      // Reset the form
+      setNewSurvey({
+        SurveyTitle: "",
+        Description: "",
+        Link: "",
+        Tags: "CCS",
+      });
+
+      // Refresh surveys
+      const querySnapshot = await getDocs(collection(db, "survey"));
+      const surveysList = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setSurveys(surveysList);
+    } catch (error) {
+      console.error("Error creating survey:", error);
+    }
+  };
 
   // Filter surveys based on search query and selected tag
   const filteredSurveys = surveys.filter((survey) => {
@@ -61,25 +103,48 @@ const AdminSurvey = () => {
         {/* Create Survey Section */}
         {activeTab === "create" && (
           <div className="create-survey-tab">
-            <h1>Create a Survey</h1>
+            <h2 classname="adminsurvey-title">Create a Survey</h2>
             <label>Survey Title</label>
             <input
               type="text"
               name="SurveyTitle"
               placeholder="Enter survey title"
+              value={newSurvey.SurveyTitle}
+              onChange={(e) =>
+                setNewSurvey({ ...newSurvey, SurveyTitle: e.target.value })
+              }
             />
 
             <label>Description</label>
             <textarea
               name="Description"
               placeholder="Enter survey description"
+              value={newSurvey.Description}
+              onChange={(e) =>
+                setNewSurvey({ ...newSurvey, Description: e.target.value })
+              }
             ></textarea>
 
             <label>Survey Link</label>
-            <input type="text" name="Link" placeholder="Enter survey link" />
+            <input
+              type="text"
+              name="Link"
+              placeholder="Enter survey link"
+              value={newSurvey.Link}
+              onChange={(e) =>
+                setNewSurvey({ ...newSurvey, Link: e.target.value })
+              }
+            />
 
             <label>Tags</label>
-            <select name="Tags" className="tags-dropdown">
+            <select
+              name="Tags"
+              className="tags-dropdown"
+              value={newSurvey.Tags}
+              onChange={(e) =>
+                setNewSurvey({ ...newSurvey, Tags: e.target.value })
+              }
+            >
               <option value="CCS">CCS</option>
               <option value="CABE">CABE</option>
               <option value="CAH">CAH</option>
@@ -93,7 +158,12 @@ const AdminSurvey = () => {
             </select>
 
             <div className="create-survey-actions">
-              <button className="create-survey-button">Create Survey</button>
+              <button
+                className="create-survey-button"
+                onClick={handleCreateSurvey}
+              >
+                Create Survey
+              </button>
             </div>
           </div>
         )}

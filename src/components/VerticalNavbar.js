@@ -13,17 +13,36 @@ const VerticalNavbar = () => {
 
   useEffect(() => {
     const fetchAdminData = async () => {
-      const storedAdmin = localStorage.getItem("admin");
-      if (storedAdmin) {
-        const admin = JSON.parse(storedAdmin);
-        const adminDoc = await getDoc(doc(db, "admin", admin.adminID.toString())); // Fetch admin details using adminID
-        if (adminDoc.exists()) {
-          const adminDetails = adminDoc.data();
-          const fullName = `${adminDetails.FName || ""} ${adminDetails.MName || ""} ${adminDetails.LName || ""}`.trim();
+      try {
+        const storedAdmin = localStorage.getItem("admin");
+        if (storedAdmin) {
+          const admin = JSON.parse(storedAdmin);
+
+          // Fetch admin details using adminID
+          const adminDocRef = doc(db, "admin", admin.adminID);
+          const adminDoc = await getDoc(adminDocRef);
+
+          if (adminDoc.exists()) {
+            const adminDetails = adminDoc.data();
+            const fullName = `${adminDetails.FName || ""} ${adminDetails.MName || ""} ${adminDetails.LName || ""}`.trim();
+            setAdminData({
+              FullName: fullName || "No Name Found",
+            });
+          } else {
+            setAdminData({
+              FullName: "Admin not found",
+            });
+          }
+        } else {
           setAdminData({
-            FullName: fullName || "No Name Found",
+            FullName: "No Admin Logged In",
           });
         }
+      } catch (error) {
+        console.error("Error fetching admin data:", error);
+        setAdminData({
+          FullName: "Error loading admin data",
+        });
       }
     };
 
@@ -69,7 +88,7 @@ const VerticalNavbar = () => {
         <img src={userImage} alt="User Profile" className="user-avatar" />
         <div className="user-info">
           <p className="user-name">{adminData.FullName}</p>
-          <p className="user-role">Administrator</p>
+          <p className="user-role">Alumni Coordinator</p>
         </div>
       </div>
     </aside>

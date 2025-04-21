@@ -10,27 +10,32 @@ const AdminLogin = () => {
   const [email, setEmail] = useState(""); // State for email input
   const [password, setPassword] = useState(""); // State for password input
   const [error, setError] = useState(""); // State for error messages
+  const [loading, setLoading] = useState(false); // State for loading indicator
 
   const handleLogin = async () => {
     if (!email || !password) {
-      alert("Please enter your email and password.");
+      setError("Please enter your email and password.");
       return;
     }
+
+    setLoading(true); // Show loading indicator
+    setError(""); // Clear previous error message
 
     try {
       // Query Firestore for the admin with the provided email and password
       const adminCollection = collection(db, "admin");
       const q = query(
         adminCollection,
-        where("Email", "==", email),
-        where("Password", "==", password)
+        where("Email", "==", email.trim()), // Match Firestore field name
+        where("Password", "==", password.trim()) // Match Firestore field name
       );
       const querySnapshot = await getDocs(q);
 
       if (!querySnapshot.empty) {
         // Admin found
-        const adminData = querySnapshot.docs[0].data(); // Get the first matching document
-        const adminID = adminData.adminID; // Retrieve adminID
+        const adminDoc = querySnapshot.docs[0]; // Get the first matching document
+        const adminData = adminDoc.data(); // Get the document data
+        const adminID = adminDoc.id; // Retrieve the document ID as adminID
         const fullName = `${adminData.FName || ""} ${adminData.MName || ""} ${adminData.LName || ""}`.trim(); // Get full name
 
         // Store admin data in local storage
@@ -46,7 +51,15 @@ const AdminLogin = () => {
     } catch (err) {
       console.error("Error logging in:", err);
       setError("An error occurred while logging in. Please try again.");
+    } finally {
+      setLoading(false); // Hide loading indicator
     }
+  };
+
+  // Clear error message when user types
+  const handleInputChange = (setter) => (e) => {
+    setter(e.target.value);
+    setError(""); // Clear error message
   };
 
   return (
@@ -63,7 +76,7 @@ const AdminLogin = () => {
             className="input"
             placeholder="Enter your admin email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={handleInputChange(setEmail)} // Clear error on typing
           />
 
           <label className="label">Password</label>
@@ -72,11 +85,11 @@ const AdminLogin = () => {
             className="input"
             placeholder="Enter your password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={handleInputChange(setPassword)} // Clear error on typing
           />
 
-          <button className="login-button" onClick={handleLogin}>
-            Login
+          <button className="login-button" onClick={handleLogin} disabled={loading}>
+            {loading ? "Logging in..." : "Login"}
           </button>
           <h1 className="forgot-password" onClick={() => navigate("/login")}>
             Alumni
