@@ -61,7 +61,12 @@ const Job = () => {
               <div className="job-details">
                 <p>{job.date}</p>
                 <p>No of vacancies: {job.vacancies}</p>
-                <button className="apply-button">Apply</button>
+                <button
+                  className="apply-button"
+                  onClick={() => window.open(job.link, "_blank")}
+                >
+                  Apply
+                </button>
               </div>
             </div>
           ))}

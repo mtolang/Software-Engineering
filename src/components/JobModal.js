@@ -71,6 +71,12 @@ const JobModal = ({ isOpen, onClose, onSave }) => {
             name="vacancies"
             value={jobDetails.vacancies}
             onChange={handleChange}
+          /><label>Company Link</label>
+          <input
+            type="text"
+            name="link"
+            value={jobDetails.link}
+            onChange={handleChange}
           />
         </div>
         <div className="modal-footer">

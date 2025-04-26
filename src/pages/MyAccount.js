@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/MyAccount.css';
-import Navbar from "../components/Navbar"; // ✅ Import the Navbar component
+import Navbar from "../components/Navbar";
 import profilepic from '../assets/profile.webp';
-import EditProfile from '../components/editprof.js'; // Import the EditProfile component
-import { db } from "../firebaseConfig"; // Import the Firestore configuration
-import { doc, getDoc, updateDoc } from "firebase/firestore"; // Import updateDoc
-import AchievementStatus from './AchievementStatus'; // Import AchievementStatus component
+import { db } from "../firebaseConfig";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+import AchievementStatus from './AchievementStatus';
 
 const MyAccount = () => {
     const [user, setUser] = useState(null);
     const [userDocRef, setUserDocRef] = useState(null);
     const [activeTab, setActiveTab] = useState('profile');
-    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-    const [currentPage, setCurrentPage] = useState('dashboard'); // Example state to track the current page
+    const [isEditing, setIsEditing] = useState(false); // Track if editing mode is active
+    const [updatedUser, setUpdatedUser] = useState({}); // Store updated user data
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -20,10 +19,11 @@ const MyAccount = () => {
             if (userData) {
                 const user = JSON.parse(userData);
                 if (user.alumni_id) {
-                    const userDocRef = doc(db, "alumni", user.alumni_id); // Use alumni_id as document ID
+                    const userDocRef = doc(db, "alumni", user.alumni_id);
                     const userDoc = await getDoc(userDocRef);
                     if (userDoc.exists()) {
                         setUser(userDoc.data());
+                        setUpdatedUser(userDoc.data()); // Initialize updatedUser with current user data
                         setUserDocRef(userDocRef);
                     } else {
                         console.error("No such document!");
@@ -38,13 +38,13 @@ const MyAccount = () => {
         fetchUserData();
     }, []);
 
-    const handleSave = async (updatedUser) => {
+    const handleSaveChanges = async () => {
         try {
             if (userDocRef) {
                 await updateDoc(userDocRef, updatedUser);
-                setUser(updatedUser);
-                localStorage.setItem("user", JSON.stringify(updatedUser));
-                setIsEditModalOpen(false);
+                setUser(updatedUser); // Update the user state with the new data
+                localStorage.setItem("user", JSON.stringify(updatedUser)); // Update local storage
+                setIsEditing(false); // Exit editing mode
             } else {
                 console.error("User document reference is missing");
             }
@@ -53,57 +53,98 @@ const MyAccount = () => {
         }
     };
 
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setUpdatedUser((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    };
+
     const renderProfile = () => (
         <div className="details-section">
             <label>Name</label>
-            <input type="text" name="name" value={user.name} readOnly/>
+            <input
+                type="text"
+                name="name"
+                value={updatedUser.name || ""}
+                onChange={handleInputChange}
+                disabled={!isEditing} // Disable input if not in editing mode
+            />
 
             <label>Email</label>
-            <input type="email" name="email" value={user.email} readOnly/>
+            <input
+                type="email"
+                name="email"
+                value={updatedUser.email || ""}
+                onChange={handleInputChange}
+                disabled={!isEditing}
+            />
 
             <label>Year Graduated</label>
-            <input type="text" name="year_graduated" value={user.year_graduated} readOnly/>
+            <input
+                type="text"
+                name="year_graduated"
+                value={updatedUser.year_graduated || ""}
+                onChange={handleInputChange}
+                disabled={!isEditing}
+            />
 
-            <label>Job title</label>
-            <input type="text" name="jobTitle" value={user.jobTitle} readOnly/>
+            <label>Job Title</label>
+            <input
+                type="text"
+                name="jobTitle"
+                value={updatedUser.jobTitle || ""}
+                onChange={handleInputChange}
+                disabled={!isEditing}
+            />
 
-            <label>Contact number</label>
-            <input type="text" name="contactNumber" value={user.contactNumber} readOnly/>
+            <label>Contact Number</label>
+            <input
+                type="text"
+                name="contactNumber"
+                value={updatedUser.contactNumber || ""}
+                onChange={handleInputChange}
+                disabled={!isEditing}
+            />
 
-            <label>Current address</label>
-            <textarea name="current_address" value={user.current_address} readOnly></textarea>
+            <label>Current Address</label>
+            <textarea
+                name="current_address"
+                value={updatedUser.current_address || ""}
+                onChange={handleInputChange}
+                disabled={!isEditing}
+            ></textarea>
 
-            <div className="flex justify-between mt-4">
-                <button
-                    className="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded-full"
-                    onClick={() => setActiveTab('achievements')} // Navigate back to Achievements
-                >
-                    ← Back
-                </button>
-                <button
-                    className="bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 px-4 rounded-full"
-                    onClick={() => setIsEditModalOpen(true)} // Open the edit modal
-                >
-                    Modify
-                </button>
+            <div className="button-section">
+                {!isEditing ? (
+                    <button
+                        className="modify-btn"
+                        onClick={() => setIsEditing(true)} // Enable editing mode
+                    >
+                        Modify
+                    </button>
+                ) : (
+                    <button
+                        className="save-btn"
+                        onClick={handleSaveChanges} // Save changes to the database
+                    >
+                        Save Changes
+                    </button>
+                )}
             </div>
         </div>
     );
 
     const renderAchievements = () => (
         <div className="achievements-section">
-            <AchievementStatus /> {/* Render AchievementStatus component */}
+            <AchievementStatus />
         </div>
     );
 
-    const navigateToAchievements = () => {
-        setCurrentPage('achievements');
-        setActiveTab('achievements');
-    };
-
     return (
         <div className="homebox">
-            <Navbar /> {/* ✅ Navbar at the top */}
+            <Navbar />
 
             <div className="account-container">
                 <h2>My Account</h2>
@@ -113,24 +154,32 @@ const MyAccount = () => {
                 </div>
 
                 <div className="tabs">
-                    <button className={activeTab === 'profile' ? 'active' : ''} onClick={() => setActiveTab('profile')}>Profile</button>
-                    <button className={activeTab === 'achievements' ? 'active' : ''} onClick={navigateToAchievements}>Achievements</button>
+                    <button
+                        className={activeTab === 'profile' ? 'active' : ''}
+                        onClick={() => setActiveTab('profile')}
+                    >
+                        Profile
+                    </button>
+                    <button
+                        className={activeTab === 'achievements' ? 'active' : ''}
+                        onClick={() => setActiveTab('achievements')}
+                    >
+                        Achievements
+                    </button>
                 </div>
 
                 {user && (activeTab === 'profile' ? renderProfile() : renderAchievements())}
 
-                {currentPage !== 'achievements' && (
-                    <div className="button-section">
-                        <button className="modify-btn" onClick={() => setIsEditModalOpen(true)}>Modify</button>
-                        <button className="signout-btn" onClick={() => {
-                            localStorage.removeItem("user");
-                            window.location.href = "/login";
-                        }}>Sign out</button>
-                    </div>
-                )}
+                <button
+                    className="signout-btn"
+                    onClick={() => {
+                        localStorage.removeItem("user");
+                        window.location.href = "/login";
+                    }}
+                >
+                    Sign out
+                </button>
             </div>
-
-            {isEditModalOpen && <EditProfile user={user} userDocRef={userDocRef} onSave={handleSave} onClose={() => setIsEditModalOpen(false)} />}
         </div>
     );
 };
