@@ -28,16 +28,21 @@ const Login = () => {
     }
 
     try {
-      const q = query(collection(db, "alumni"), where("email", "==", email), where("password", "==", password));
+      const q = query(
+        collection(db, "alumni"),
+        where("email", "==", email),
+        where("password", "==", password)
+      );
       const querySnapshot = await getDocs(q);
 
       if (!querySnapshot.empty) {
         const userData = querySnapshot.docs[0].data();
-        const userWithAlumniId = {
+        const userWithAlumniIdAndRole = {
           ...userData,
           alumni_id: querySnapshot.docs[0].id, // Include the document ID as alumni_id
+          roles: userData.roles, // Include the roles field
         };
-        localStorage.setItem("user", JSON.stringify(userWithAlumniId)); // Store user data in local storage
+        localStorage.setItem("user", JSON.stringify(userWithAlumniIdAndRole)); // Store user data in local storage
         navigate("/Home");
       } else {
         alert("Incorrect login details.");

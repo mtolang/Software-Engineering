@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { db } from "../firebaseConfig";
 import { collection, getDocs } from "firebase/firestore";
 import VNavbar from "../components/VerticalNavbar";
+import AdminHomeModal from "../components/AdminHomeModal";
+import AdminAlumniModal from "../components/AdminAlumniModal";
 import "../styles/adminalumni.css";
 
 const AdminAlumniPage = () => {
@@ -10,11 +12,14 @@ const AdminAlumniPage = () => {
   const [alumniDropdownOpen, setAlumniDropdownOpen] = useState(null);
   const [registrants, setRegistrants] = useState([]);
   const [alumni, setAlumni] = useState([]);
+  const [isRegistrantModalOpen, setIsRegistrantModalOpen] = useState(false);
+  const [isAlumniModalOpen, setIsAlumniModalOpen] = useState(false);
+  const [selectedRegistrant, setSelectedRegistrant] = useState(null);
+  const [selectedAlumnus, setSelectedAlumnus] = useState(null);
 
   const registrantsDropdownRef = useRef([]);
   const alumniDropdownRef = useRef([]);
 
-  // Fetch data for registrants and alumni
   const fetchData = async () => {
     try {
       const registrantsSnapshot = await getDocs(collection(db, "registrants"));
@@ -25,7 +30,7 @@ const AdminAlumniPage = () => {
           ...data,
           date_registered: data.date_registered?.seconds
             ? new Date(data.date_registered.seconds * 1000).toLocaleString()
-            : "N/A", // Convert Firestore Timestamp to readable date
+            : "N/A",
         };
       });
       setRegistrants(registrantsList);
@@ -38,7 +43,7 @@ const AdminAlumniPage = () => {
           ...data,
           date_registered: data.date_registered?.seconds
             ? new Date(data.date_registered.seconds * 1000).toLocaleString()
-            : "N/A", // Convert Firestore Timestamp to readable date
+            : "N/A",
         };
       });
       setAlumni(alumniList);
@@ -51,35 +56,17 @@ const AdminAlumniPage = () => {
     fetchData();
   }, []);
 
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      // Close registrants dropdown
-      if (
-        registrantsDropdownRef.current.every(
-          (ref) => ref && !ref.contains(event.target)
-        )
-      ) {
-        setRegistrantsDropdownOpen(null);
-      }
+  const handleViewRegistrantDetails = (registrant) => {
+    setSelectedRegistrant(registrant);
+    setIsRegistrantModalOpen(true);
+  };
 
-      // Close alumni dropdown
-      if (
-        alumniDropdownRef.current.every(
-          (ref) => ref && !ref.contains(event.target)
-        )
-      ) {
-        setAlumniDropdownOpen(null);
-      }
-    };
+  const handleViewAlumniDetails = (alumnus) => {
+    // console.log("Alumnus selected:", alumnus); // Debugging
+    setSelectedAlumnus(alumnus);
+    setIsAlumniModalOpen(true);
+  };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
-  // Function to handle messaging
   const handleMessage = (email) => {
     const gmailComposeUrl = `https://mail.google.com/mail/u/0/#inbox?compose=new&to=${email}`;
     window.open(gmailComposeUrl, "_blank");
@@ -143,7 +130,9 @@ const AdminAlumniPage = () => {
                       </button>
                       {registrantsDropdownOpen === index && (
                         <div className="adminalumni-dropdown-menu show">
-                          <p>View Details</p>
+                          <p onClick={() => handleViewRegistrantDetails(registrant)}>
+                            View Details
+                          </p>
                           <p onClick={() => handleMessage(registrant.email)}>
                             Message
                           </p>
@@ -202,7 +191,7 @@ const AdminAlumniPage = () => {
                       </button>
                       {alumniDropdownOpen === index && (
                         <div className="adminalumni-dropdown-menu show">
-                          <p>View Details</p>
+                          <p onClick={() => handleViewAlumniDetails(alumnus)}>View Details</p>
                           <p onClick={() => handleMessage(alumnus.email)}>
                             Message
                           </p>
@@ -216,6 +205,19 @@ const AdminAlumniPage = () => {
           </table>
         </div>
       </div>
+
+      {/* Modals */}
+      <AdminHomeModal
+        isOpen={isRegistrantModalOpen}
+        onClose={() => setIsRegistrantModalOpen(false)}
+        registrant={selectedRegistrant}
+      />
+
+      <AdminAlumniModal
+        isOpen={isAlumniModalOpen}
+        onClose={() => setIsAlumniModalOpen(false)}
+        alumnus={selectedAlumnus}
+      />
     </div>
   );
 };

@@ -17,7 +17,7 @@ const AdminEventsModal = ({
     <div className="modal-overlay">
       <div className="modal-content">
         <h2>{editingEventId ? "Edit Event" : "Add Event"}</h2>
-        <label>Event Name</label>
+        <label className="eventsmodal-eventname">Event Name</label>
         <input
           type="text"
           name="eventName"
@@ -25,7 +25,7 @@ const AdminEventsModal = ({
           onChange={handleInputChange}
         />
 
-        <label>Date</label>
+        <label className="eventsmodal-date">Date</label>
         <input
           type="date"
           name="date"
@@ -33,7 +33,7 @@ const AdminEventsModal = ({
           onChange={handleInputChange}
         />
 
-        <label>Time</label>
+        <label className="eventsmodal-time">Time</label>
         <input
           type="time"
           name="time"
@@ -41,7 +41,7 @@ const AdminEventsModal = ({
           onChange={handleInputChange}
         />
 
-        <label>Venue</label>
+        <label className="eventsmodal-venue">Venue</label>
         <input
           type="text"
           name="venue"
@@ -49,14 +49,14 @@ const AdminEventsModal = ({
           onChange={handleInputChange}
         />
 
-        <label>Description</label>
+        <label className="eventsmodal-description">Description</label>
         <textarea
           name="description"
           value={eventDetails.description}
           onChange={handleInputChange}
         />
 
-        <label>Tags</label>
+        <label className="eventsmodal-tags">Tags</label>
         <select
           name="tags"
           value={eventDetails.tags}

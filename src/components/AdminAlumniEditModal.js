@@ -1,18 +1,22 @@
 import React, { useState } from "react";
 import { db } from "../firebaseConfig";
-import { doc, updateDoc } from "firebase/firestore"; // ✅ Firestore functions
-import "../styles/components/adminalumnimodal.css"; // Separate CSS for this modal
+import { doc, updateDoc } from "firebase/firestore";
+import "../styles/components/adminalumnimodal.css";
 
 const AdminAlumniEditModal = ({ isOpen, onClose, alumni }) => {
-  const [editedAlumni, setEditedAlumni] = useState(alumni);
+  console.log("Edit Modal Open:", isOpen); // Debugging
+  console.log("Alumni Data in Edit Modal:", alumni); // Debugging
+
+  // Initialize state unconditionally
+  const [editedAlumni, setEditedAlumni] = useState(alumni || {});
 
   if (!isOpen || !alumni) return null;
 
   const handleSave = async () => {
     try {
       const alumniRef = doc(db, "alumni", alumni.id);
-      await updateDoc(alumniRef, editedAlumni); // ✅ Update alumni details
-      alert("Alumni details updated! ✅");
+      await updateDoc(alumniRef, editedAlumni);
+      alert("Alumni details updated!");
       onClose();
     } catch (error) {
       console.error("Error updating alumni:", error);
@@ -30,21 +34,21 @@ const AdminAlumniEditModal = ({ isOpen, onClose, alumni }) => {
         <h2 className="adminalumni-modal-title">Edit Alumni Details</h2>
         <div className="adminalumni-modal-detail">
           <label>Name:</label>
-          <input type="text" name="name" value={editedAlumni.name} onChange={handleChange} className="adminalumni-modal-box" />
+          <input type="text" name="name" value={editedAlumni.name || ""} onChange={handleChange} />
           <label>Email:</label>
-          <input type="text" name="email" value={editedAlumni.email} onChange={handleChange} className="adminalumni-modal-box" />
+          <input type="text" name="email" value={editedAlumni.email || ""} onChange={handleChange} />
           <label>Course Graduated:</label>
-          <input type="text" name="course_graduated" value={editedAlumni.course_graduated} onChange={handleChange} className="adminalumni-modal-box" />
+          <input type="text" name="course_graduated" value={editedAlumni.course_graduated || ""} onChange={handleChange} />
           <label>Current Address:</label>
-          <input type="text" name="current_address" value={editedAlumni.current_address} onChange={handleChange} className="adminalumni-modal-box" />
+          <input type="text" name="current_address" value={editedAlumni.current_address || ""} onChange={handleChange} />
           <label>Date Registered:</label>
-          <input type="text" name="date_registered" value={editedAlumni.date_registered} onChange={handleChange} className="adminalumni-modal-box" />
+          <input type="text" name="date_registered" value={editedAlumni.date_registered || ""} onChange={handleChange} />
           <label>Year Graduated:</label>
-          <input type="text" name="year_graduated" value={editedAlumni.year_graduated} onChange={handleChange} className="adminalumni-modal-box" />
+          <input type="text" name="year_graduated" value={editedAlumni.year_graduated || ""} onChange={handleChange} />
         </div>
         <div className="adminalumni-modal-actions">
-          <button className="adminalumni-modal-save" onClick={handleSave}>Save</button>
-          <button className="adminalumni-modal-close" onClick={onClose}>Cancel</button>
+          <button onClick={handleSave}>Save</button>
+          <button onClick={onClose}>Cancel</button>
         </div>
       </div>
     </div>
