@@ -90,8 +90,7 @@
 /* Input fields */
 .modal-content input[type="text"],
 .modal-content input[type="date"],
-.modal-content input[type="time"] {
-}
+.modal-content input[type="time"],
 
 .modal-content input:focus {
   border-color: #007bff;

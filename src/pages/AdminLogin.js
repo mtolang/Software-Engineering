@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../firebaseConfig"; // Import Firestore configuration
 import Logo from "../assets/nobglogo.png";
+import Logo3 from "../assets/logo3.png"; // Import the third logo
 import "../styles/adminlogin.css"; // Import Admin Login styles
 
 const AdminLogin = () => {
@@ -102,7 +103,10 @@ const AdminLogin = () => {
 
       {/* Right Side - No Sign Up, Just Admin Info */}
       <div className="admin-info-box">
-        <img src={Logo} alt="Alumni Portal Logo" className="admin-logo" />
+        <div className="admin-info-logos">
+          <img src={Logo} alt="Alumni Portal Logo" className="admin-logo" />
+          <img src={Logo3} alt="Alumni Portal Logo" className="admin-logo" />
+        </div>
         <h2 className="admin-info-title">Welcome Administrator</h2>
         <p className="admin-info-text">
           Please login with your administrator credentials.

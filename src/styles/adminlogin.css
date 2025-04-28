@@ -52,7 +52,7 @@
 
 .login-button {
   width: 65%;
-  background: #F9486C;
+  background: #f3728c;
   color: white;
   padding: 10px;
   border: none;
@@ -68,7 +68,7 @@
 }
 
 .login-button:hover {
-  background: #b51535;
+  background: #f61744;
 }
 
 .forgot-password {
@@ -86,7 +86,7 @@
 /* Right Side - Admin Info Box */
 .admin-info-box {
   width: 45%;
-  background: linear-gradient(rgba(249, 72, 108, 0.9),
+  background: linear-gradient(rgba(241, 98, 126, 0.9),
       /* F9486C with 90% opacity */
       rgba(249, 72, 108, 0.9)),
     url("../assets/uic.jpg");
@@ -171,6 +171,23 @@
   background-color: white;
   border-radius: 50%;
   transition: 0.4s;
+}
+
+.admin-info-logos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.admin-logo {
+  width: 150px;
+  /* Adjust size */
+  height: auto;
+  /* Maintain aspect ratio */
+  display: block;
+  /* Ensures it's centered */
+  margin: 0 auto;
+  /* Centers it inside its container */
 }
 
 /* When Checked, Change Color */

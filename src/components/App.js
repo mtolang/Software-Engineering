@@ -4,6 +4,7 @@ import Login from "../pages/Login";
 import Signup from "../pages/Signup";
 import Home from "../pages/Home";
 import ForgotPassword from "../pages/ForgotPassword";
+import ResetPassword from "../pages/ResetPassword";
 
 // Alumni Pages
 import AlumniProfile from "../pages/MyAccount";
@@ -43,6 +44,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/forgotpass" element={<ForgotPassword />} />
+        <Route path="/resetpassword" element={<ResetPassword />} />
 
         {/* Alumni Routes */}
         <Route path="/home" element={<Home />} />

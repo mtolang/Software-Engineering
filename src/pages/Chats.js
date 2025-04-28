@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "../styles/chats.css"; // Import the new CSS file
 
 const ChatStatic = () => {
   const navigate = useNavigate();
@@ -43,67 +44,53 @@ const ChatStatic = () => {
   };
 
   return (
-    <div className="flex h-screen bg-gray-900 text-white">
+    <div className="chat-container">
       {/* Sidebar */}
-      <div className="w-1/4 bg-pink-500 text-white p-4">
-        <h1 className="text-xl font-bold">ALUMNI PORTAL</h1>
-        <div className="mt-6">
-          <h2 className="font-semibold">Chats</h2>
-          <ul className="mt-4 space-y-2">
-            <li className="bg-pink-700 p-2 rounded">Alumni Chatbot</li>
+      <div className="chat-sidebar">
+        <h1 className="chat-title">ALUMNI PORTAL</h1>
+        <div className="chat-section">
+          <h2 className="chat-subtitle">Chats</h2>
+          <ul className="chat-list">
+            <li className="chat-list-item">Alumni Chatbot</li>
           </ul>
         </div>
-        <button
-          className="mt-6 bg-gray-300 text-black px-4 py-2 rounded"
-          onClick={() => navigate(-1)}
-        >
+        <button className="chat-back-button" onClick={() => navigate(-1)}>
           Back
         </button>
       </div>
 
       {/* Chat Window */}
-      <div className="flex-1 flex flex-col">
+      <div className="chat-window">
         {/* Chat Header */}
-        <div className="bg-gray-800 p-4 flex justify-between items-center">
-          <h2 className="font-bold">Alumni Chatbot</h2>
+        <div className="chat-header">
+          <h2 className="chat-header-title">Alumni Chatbot</h2>
         </div>
 
         {/* Chat Messages */}
-        <div className="flex-1 p-4 space-y-4 overflow-y-auto">
+        <div className="chat-messages">
           {messages.map((message, index) => (
             <div
               key={index}
-              className={`flex ${
-                message.sender === "user" ? "justify-end" : "justify-start"
+              className={`chat-message ${
+                message.sender === "user" ? "chat-message-user" : "chat-message-bot"
               }`}
             >
-              <div
-                className={`p-3 rounded-lg max-w-xs ${
-                  message.sender === "user"
-                    ? "bg-pink-500 text-white"
-                    : "bg-gray-700 text-white"
-                }`}
-              >
-                {message.text}
-              </div>
+              {message.text}
             </div>
           ))}
         </div>
 
         {/* Message Input */}
-        <div className="flex items-center p-4 bg-gray-800">
+        <div className="chat-input-container">
           <input
             type="text"
-            className="flex-1 mx-2 p-2 border rounded bg-gray-700 text-white"
+            className="chat-input"
             placeholder="Type your message..."
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleSend()}
           />
-          <button
-            className="bg-pink-500 text-white px-4 py-2 rounded"
-            onClick={handleSend}
-          >
+          <button className="chat-send-button" onClick={handleSend}>
             Send
           </button>
         </div>

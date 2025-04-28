@@ -68,7 +68,9 @@ const AdminAlumniPage = () => {
   };
 
   const handleMessage = (email) => {
-    const gmailComposeUrl = `https://mail.google.com/mail/u/0/#inbox?compose=new&to=${email}`;
+    const subject = encodeURIComponent("Subject goes here");
+    const body = encodeURIComponent("Body content goes here");
+    const gmailComposeUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${subject}&body=${body}`;
     window.open(gmailComposeUrl, "_blank");
   };
 

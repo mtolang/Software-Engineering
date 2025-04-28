@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { db } from "../firebaseConfig";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import Logo from "../assets/nobglogo.png";
-import Logo2 from "../assets/logo2.png"; // Import the second logo
+import Logo3 from "../assets/logo3.png"; // Import the third logo
 import "../styles/login.css"; // Import User Login styles
 
 const Login = () => {
@@ -92,7 +92,7 @@ const Login = () => {
       <div className="login-signup-box">
         <div className="signup-logos">
           <img src={Logo} alt="Alumni Portal Logo" className="signup-logo" />
-          <img src={Logo2} alt="Second Logo" className="signup-logo" />
+          <img src={Logo3} alt="Second Logo" className="signup-logo" />
         </div>
         <h2 className="login-signup-title">Welcome to Alumni Portal</h2>
         <p className="login-signup-text">Don’t have an account?</p>

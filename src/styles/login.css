@@ -87,7 +87,7 @@
 /* Right Side - Sign Up */
 .login-signup-box {
   width: 45%;
-  background: linear-gradient(rgba(249, 72, 108, 0.9),
+  background: linear-gradient(rgba(244, 106, 134, 0.9),
       /* F9486C with 90% opacity */
       rgba(249, 72, 108, 0.9)),
     url("../assets/uic.jpg");
@@ -118,7 +118,7 @@
 
 .login-signup-button {
   width: 30%;
-  background: #F9486C;
+  background: #f3728c;
   color: white;
   padding: 10px 20px;
   border-radius: 50px;
@@ -147,7 +147,7 @@
 
 
 .signup-button:hover {
-  background: #b51535;
+  background: #f41d48;
   color: #fefefe;
   border: 2px solid #ffffff;
   /* Keeps the border on hover */
