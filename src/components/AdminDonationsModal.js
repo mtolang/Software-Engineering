@@ -11,6 +11,18 @@ const AdminDonationsModal = ({ donation, onClose, onUpdateStatus }) => {
     }
   };
 
+  // Safely handle the date_sent field
+  const formattedDateSent = donation.date_sent?.seconds
+    ? new Date(donation.date_sent.seconds * 1000).toLocaleString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      })
+    : "N/A";
+
   return (
     <div className="modal-overlay">
       <div className="modal-content">
@@ -21,7 +33,7 @@ const AdminDonationsModal = ({ donation, onClose, onUpdateStatus }) => {
         <p><strong>Bank Type:</strong> {donation.bank_type}</p>
         <p><strong>Course Graduated:</strong> {donation.course_graduated}</p>
         <p><strong>Date Graduated:</strong> {donation.date_graduated}</p>
-        <p><strong>Date Sent:</strong> {new Date(donation.date_sent.seconds * 1000).toLocaleString()}</p>
+        <p><strong>Date Sent:</strong> {formattedDateSent}</p>
         <p><strong>Purpose:</strong> {donation.message}</p>
         <p><strong>Payment Method:</strong> {donation.payment_method}</p>
         <p><strong>Transaction ID:</strong> {donation.transaction_id}</p>

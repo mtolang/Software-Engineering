@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { db } from "../firebaseConfig";
 import { collection, query, where, getDocs } from "firebase/firestore";
+import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import eye icons for password toggle
 import Logo from "../assets/nobglogo.png";
 import Logo3 from "../assets/logo3.png"; // Import the third logo
 import "../styles/login.css"; // Import User Login styles
@@ -10,6 +11,7 @@ const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
 
   const handleLogin = async () => {
     if (!email && !password) {
@@ -41,8 +43,10 @@ const Login = () => {
           ...userData,
           alumni_id: querySnapshot.docs[0].id, // Include the document ID as alumni_id
           roles: userData.roles, // Include the roles field
+          name: userData.name, // Include the name field
         };
         localStorage.setItem("user", JSON.stringify(userWithAlumniIdAndRole)); // Store user data in local storage
+        localStorage.setItem("alumni_name", userData.name); // Save the name separately in local storage
         navigate("/Home");
       } else {
         alert("Incorrect login details.");
@@ -70,15 +74,25 @@ const Login = () => {
           />
 
           <label className="label">Password</label>
-          <input
-            type="password"
-            className="input"
-            placeholder="Enter your password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+          <div className="password-container">
+            <input
+              type={showPassword ? "text" : "password"}
+              className="input password-input"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <span
+              className="password-toggle"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </span>
+          </div>
 
-          <button className="login-button" onClick={handleLogin}>Sign In</button>
+          <button className="login-button" onClick={handleLogin}>
+            Sign In
+          </button>
           <h1 className="forgot-password" onClick={() => navigate("/adminlogin")}>
             Administrator
           </h1>

@@ -203,3 +203,27 @@
 .admin-switch-container span{
   color: black;
 }
+
+.password-container {
+  position: relative;
+  width: 100%;
+}
+
+.password-input {
+  width: 100%;
+  padding-right: 40px; /* Add space for the eye icon */
+}
+
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 10px; /* Position the icon inside the input box */
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #888;
+  font-size: 1.2rem;
+}
+
+.password-toggle:hover {
+  color: #333;
+}

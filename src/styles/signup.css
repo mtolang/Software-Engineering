@@ -163,3 +163,15 @@
 .confirm-button:hover {
   background: #b51535;
 }
+.password-container {
+  position: relative;
+}
+
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #888;
+}

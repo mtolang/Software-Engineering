@@ -21,6 +21,7 @@ import AdminEvents from "../pages/AdminEvents";
 import AdminDonations from "../pages/AdminDonations";
 import AdminSurvey from "../pages/AdminSurvey";
 import ChatStatic from "../pages/Chats";
+import AlumniDonations from "../pages/AlumniDonations";
 
 const App = () => {
   const [userEmail, setUserEmail] = useState(null);
@@ -53,6 +54,7 @@ const App = () => {
         <Route path="/newsevents" element={<NewsEvents />} />
         <Route path="/alumnisurvey" element={<AlumniSurvey />} />
         <Route path="/achievements" element={<AchievementStatus />} />
+        <Route path="/AlumniDonations" element={<AlumniDonations />} />
 
         {/* Administrator Routes */}
         <Route path="/adminlogin" element={<AdminLogin />} />

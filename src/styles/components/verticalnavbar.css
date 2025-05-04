@@ -2,7 +2,7 @@
 .sidebar {
     width: 250px;
     height: 100vh;
-    background-color: #F9486C;
+    background-color: #fb5e7d;
     color: white;
     display: flex;
     flex-direction: column;
@@ -32,6 +32,7 @@
     font-size: 18px;
     font-weight: bold;
     text-transform: uppercase;
+    color: #fdfdfd;
   }
   
   /* Navigation Sections */
@@ -63,7 +64,7 @@
   }
   
   .nav-item:hover {
-    background-color: #D63F5D;
+    background-color: #f70a45;
   }
   
   .nav-item.active {
@@ -76,7 +77,7 @@
     display: flex;
     align-items: center;
     padding: 12px;
-    background-color: #E53950;
+    background-color: #f33658;
     border-radius: 8px;
   }
   
@@ -102,3 +103,22 @@
     opacity: 0.8;
   }
   
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between icon and text */
+    padding: 10px;
+    text-decoration: none;
+    color: #fbfbfb;
+    font-size: 1rem;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .nav-item:hover {
+    background-color: #f6164b;
+    color: #ffffff;
+  }
+  
+  .nav-icon {
+    font-size: 1.2rem;
+  }

@@ -62,7 +62,6 @@ const AdminAlumniPage = () => {
   };
 
   const handleViewAlumniDetails = (alumnus) => {
-    // console.log("Alumnus selected:", alumnus); // Debugging
     setSelectedAlumnus(alumnus);
     setIsAlumniModalOpen(true);
   };
@@ -73,6 +72,34 @@ const AdminAlumniPage = () => {
     const gmailComposeUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${subject}&body=${body}`;
     window.open(gmailComposeUrl, "_blank");
   };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Check if the click is outside the registrants dropdown
+      if (
+        registrantsDropdownOpen !== null &&
+        registrantsDropdownRef.current[registrantsDropdownOpen] &&
+        !registrantsDropdownRef.current[registrantsDropdownOpen].contains(event.target)
+      ) {
+        setRegistrantsDropdownOpen(null);
+      }
+
+      // Check if the click is outside the alumni dropdown
+      if (
+        alumniDropdownOpen !== null &&
+        alumniDropdownRef.current[alumniDropdownOpen] &&
+        !alumniDropdownRef.current[alumniDropdownOpen].contains(event.target)
+      ) {
+        setAlumniDropdownOpen(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [registrantsDropdownOpen, alumniDropdownOpen]);
 
   return (
     <div className="adminalumni-container">
@@ -102,48 +129,48 @@ const AdminAlumniPage = () => {
               </tr>
             </thead>
             <tbody>
-              {registrants.filter((registrant) =>
-                registrant.name?.toLowerCase().includes(searchQuery.toLowerCase())
-              ).map((registrant, index) => (
-                <tr key={registrant.id}>
-                  <td>
-                    <strong>{registrant.name}</strong>
-                    <br />
-                    {registrant.email}
-                  </td>
-                  <td>{registrant.date_registered}</td>
-                  <td>{registrant.year_graduated}</td>
-                  <td>
-                    <div
-                      className="more-details"
-                      ref={(el) => {
-                        registrantsDropdownRef.current[index] = el;
-                      }}
-                    >
-                      <button
-                        className="adminalumni-dropdown-btn"
-                        onClick={() =>
-                          setRegistrantsDropdownOpen(
-                            registrantsDropdownOpen === index ? null : index
-                          )
-                        }
+              {registrants
+                .filter((registrant) =>
+                  registrant.name?.toLowerCase().includes(searchQuery.toLowerCase())
+                )
+                .map((registrant, index) => (
+                  <tr key={registrant.id}>
+                    <td>
+                      <strong>{registrant.name}</strong>
+                      <br />
+                      {registrant.email}
+                    </td>
+                    <td>{registrant.date_registered}</td>
+                    <td>{registrant.year_graduated}</td>
+                    <td>
+                      <div
+                        className="more-details"
+                        ref={(el) => {
+                          registrantsDropdownRef.current[index] = el;
+                        }}
                       >
-                        •••
-                      </button>
-                      {registrantsDropdownOpen === index && (
-                        <div className="adminalumni-dropdown-menu show">
-                          <p onClick={() => handleViewRegistrantDetails(registrant)}>
-                            View Details
-                          </p>
-                          <p onClick={() => handleMessage(registrant.email)}>
-                            Message
-                          </p>
-                        </div>
-                      )}
-                    </div>
-                  </td>
-                </tr>
-              ))}
+                        <button
+                          className="adminalumni-dropdown-btn"
+                          onClick={() =>
+                            setRegistrantsDropdownOpen(
+                              registrantsDropdownOpen === index ? null : index
+                            )
+                          }
+                        >
+                          •••
+                        </button>
+                        {registrantsDropdownOpen === index && (
+                          <div className="adminalumni-dropdown-menu show">
+                            <p onClick={() => handleViewRegistrantDetails(registrant)}>
+                              View Details
+                            </p>
+                            <p onClick={() => handleMessage(registrant.email)}>Message</p>
+                          </div>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>
@@ -163,46 +190,46 @@ const AdminAlumniPage = () => {
               </tr>
             </thead>
             <tbody>
-              {alumni.filter((alumnus) =>
-                alumnus.name?.toLowerCase().includes(searchQuery.toLowerCase())
-              ).map((alumnus, index) => (
-                <tr key={alumnus.id}>
-                  <td>
-                    <strong>{alumnus.name}</strong>
-                    <br />
-                    {alumnus.email}
-                  </td>
-                  <td>{alumnus.course_graduated}</td>
-                  <td>{alumnus.year_graduated}</td>
-                  <td>
-                    <div
-                      className="more-details"
-                      ref={(el) => {
-                        alumniDropdownRef.current[index] = el;
-                      }}
-                    >
-                      <button
-                        className="adminalumni-dropdown-btn"
-                        onClick={() =>
-                          setAlumniDropdownOpen(
-                            alumniDropdownOpen === index ? null : index
-                          )
-                        }
+              {alumni
+                .filter((alumnus) =>
+                  alumnus.name?.toLowerCase().includes(searchQuery.toLowerCase())
+                )
+                .map((alumnus, index) => (
+                  <tr key={alumnus.id}>
+                    <td>
+                      <strong>{alumnus.name}</strong>
+                      <br />
+                      {alumnus.email}
+                    </td>
+                    <td>{alumnus.course_graduated}</td>
+                    <td>{alumnus.year_graduated}</td>
+                    <td>
+                      <div
+                        className="more-details"
+                        ref={(el) => {
+                          alumniDropdownRef.current[index] = el;
+                        }}
                       >
-                        •••
-                      </button>
-                      {alumniDropdownOpen === index && (
-                        <div className="adminalumni-dropdown-menu show">
-                          <p onClick={() => handleViewAlumniDetails(alumnus)}>View Details</p>
-                          <p onClick={() => handleMessage(alumnus.email)}>
-                            Message
-                          </p>
-                        </div>
-                      )}
-                    </div>
-                  </td>
-                </tr>
-              ))}
+                        <button
+                          className="adminalumni-dropdown-btn"
+                          onClick={() =>
+                            setAlumniDropdownOpen(
+                              alumniDropdownOpen === index ? null : index
+                            )
+                          }
+                        >
+                          •••
+                        </button>
+                        {alumniDropdownOpen === index && (
+                          <div className="adminalumni-dropdown-menu show">
+                            <p onClick={() => handleViewAlumniDetails(alumnus)}>View Details</p>
+                            <p onClick={() => handleMessage(alumnus.email)}>Message</p>
+                          </div>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>

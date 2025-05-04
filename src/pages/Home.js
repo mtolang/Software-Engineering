@@ -9,6 +9,7 @@ const HomePage = () => {
   const [user, setUser] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [expandedItems, setExpandedItems] = useState({}); // Track expanded items
+  const [selectedFilter, setSelectedFilter] = useState("all"); // State for dropdown filter
   const [collegesList] = useState([
     "College of Accounting and Business Education",
     "College of Arts and Humanities",
@@ -69,34 +70,13 @@ const HomePage = () => {
     }));
   };
 
-  // Filter events based on user's college and search query
+  // Filter events based on search query and selected filter
   const filteredEvents = events.filter((event) => {
-    const userCollegeTag = user?.course_graduated?.toLowerCase().includes("computer studies")
-      ? "ccs"
-      : user?.course_graduated?.toLowerCase().includes("accounting and business education")
-      ? "cabe"
-      : user?.course_graduated?.toLowerCase().includes("arts and humanities")
-      ? "cah"
-      : user?.course_graduated?.toLowerCase().includes("engineering and architecture")
-      ? "cea"
-      : user?.course_graduated?.toLowerCase().includes("human environmental science and food studies")
-      ? "chefs"
-      : user?.course_graduated?.toLowerCase().includes("medical and biological sciences")
-      ? "cmbs"
-      : user?.course_graduated?.toLowerCase().includes("music")
-      ? "music"
-      : user?.course_graduated?.toLowerCase().includes("nursing")
-      ? "cn"
-      : user?.course_graduated?.toLowerCase().includes("pharmacy and chemistry")
-      ? "cpc"
-      : user?.course_graduated?.toLowerCase().includes("teacher education")
-      ? "cte"
-      : null;
+    const matchesSearchQuery = event.eventName?.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesFilter =
+      selectedFilter === "all" || event.tags?.toLowerCase().includes(selectedFilter);
 
-    return (
-      (event.tags?.toLowerCase() === "all" || (userCollegeTag && event.tags?.toLowerCase().includes(userCollegeTag))) &&
-      event.eventName?.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    return matchesSearchQuery && matchesFilter;
   });
 
   return (
@@ -136,7 +116,7 @@ const HomePage = () => {
             )}
           </div>
 
-          {/* Right Side: Search Bar */}
+          {/* Right Side: Search Bar and Filter Dropdown */}
           <div className="newsevents-sidebar">
             <input
               type="text"
@@ -145,6 +125,23 @@ const HomePage = () => {
               onChange={(e) => setSearchQuery(e.target.value)}
               className="newsevents-search-bar"
             />
+            <select
+              value={selectedFilter}
+              onChange={(e) => setSelectedFilter(e.target.value)}
+              className="newsevents-filter-dropdown"
+            >
+              <option value="all">All</option>
+              <option value="cabe">CABE</option>
+              <option value="cah">CAH</option>
+              <option value="ccs">CCS</option>
+              <option value="cea">CEA</option>
+              <option value="chefs">CHEFS</option>
+              <option value="cmbs">CMBS</option>
+              <option value="cm">CM</option>
+              <option value="cn">CN</option>
+              <option value="cpc">CPC</option>
+              <option value="cte">CTE</option>
+            </select>
           </div>
         </div>
       </section>
@@ -174,8 +171,14 @@ const HomePage = () => {
       </section>
 
       <footer className="footer">
-        <p>© 2025 Alumni Portal. All rights reserved.</p>
-      </footer>
+    <p>© 2025 Alumni Portal. All rights reserved.</p>
+   <button
+    className="donation-button"
+    onClick={() => window.location.href = "/AlumniDonations"}
+   >
+       Donate Now
+    </button>
+</footer>
     </div>
   );
 };

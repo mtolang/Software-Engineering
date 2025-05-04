@@ -31,7 +31,7 @@ table td {
 }
 
 table th {
-  background-color: #dc1658;
+  background-color: #ef3e4a;
   color: white;
 }
 
@@ -42,7 +42,7 @@ table tr:nth-child(even) {
   font-size: 24px; /* Keep the title size readable */
   font-weight: bold; /* Make the title bold */
   margin-bottom: 20px; /* Add spacing below the title */
-  color: #d63384; /* Optional: Add a color to match the theme */
+  color: #c00612; /* Optional: Add a color to match the theme */
   text-align: left; /* Align the title to the left */
   width: 100%; /* Ensure the title spans the full width */
   max-width: 1400px; /* Limit the title width to match the table */

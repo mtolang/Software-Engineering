@@ -20,7 +20,14 @@ const AdminDonations = () => {
             id: doc.id,
             ...data,
             date_sent: data.date_sent?.seconds
-              ? new Date(data.date_sent.seconds * 1000).toLocaleString()
+              ? new Date(data.date_sent.seconds * 1000).toLocaleString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  second: "2-digit",
+                })
               : "N/A", // Convert Firestore Timestamp to readable date
           };
         });

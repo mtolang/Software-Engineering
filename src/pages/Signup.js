@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "../styles/signup.css";
 import { db } from "../firebaseConfig";
 import { collection, addDoc, serverTimestamp, query, where, getDocs } from "firebase/firestore";
+import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import eye icons for password toggle
 
 const Signup = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -17,6 +18,7 @@ const Signup = () => {
     phoneNumber: "+63", // Pre-filled with +63
   });
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
 
   const navigate = useNavigate();
 
@@ -40,22 +42,25 @@ const Signup = () => {
       return;
     }
 
-    // Check for existing registration
-    const q = query(
-      collection(db, "registrants"),
-      where("name", "==", `${formData.firstName} ${formData.lastName}`),
-      where("email", "==", formData.email),
-      where("year_graduated", "==", formData.yearGraduated)
-    );
+    try {
+      // Check for existing email in `alumni` collection
+      const alumniQuery = query(
+        collection(db, "alumni"),
+        where("email", "==", formData.email)
+      );
+      const alumniSnapshot = await getDocs(alumniQuery);
 
-    const querySnapshot = await getDocs(q);
-    if (!querySnapshot.empty) {
-      setError("A registration with the same name, email, and year of graduation already exists.");
-      return;
+      if (!alumniSnapshot.empty) {
+        setError("A user with the same email already exists.");
+        return;
+      }
+
+      // Open modal first (Do NOT save data yet)
+      setIsModalOpen(true);
+    } catch (error) {
+      console.error("Error checking existing email:", error);
+      setError("An error occurred. Please try again.");
     }
-
-    // Open modal first (Do NOT save data yet)
-    setIsModalOpen(true);
   };
 
   const handleConfirm = async () => {
@@ -126,7 +131,22 @@ const Signup = () => {
         <input type="email" name="email" placeholder="Example_email@gmail.com" className="signup-input" value={formData.email} onChange={handleChange} />
 
         <label className="signup-label">Password</label>
-        <input type="password" name="password" placeholder="Enter your password" className="signup-input" value={formData.password} onChange={handleChange} />
+        <div className="password-container">
+          <input
+            type={showPassword ? "text" : "password"}
+            name="password"
+            placeholder="Enter your password"
+            className="signup-input"
+            value={formData.password}
+            onChange={handleChange}
+          />
+          <span
+            className="password-toggle"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword ? <FaEyeSlash /> : <FaEye />}
+          </span>
+        </div>
 
         <label className="signup-label">Year Graduated</label>
         <input type="date" name="yearGraduated" className="signup-input" value={formData.yearGraduated} onChange={handleChange} />
@@ -151,13 +171,12 @@ const Signup = () => {
 
         <label className="signup-label">Phone Number</label>
         <input
-          type="tel" // Ensures the input is for telephone numbers
+          type="tel"
           name="phoneNumber"
           placeholder="+63"
           className="signup-input"
           value={formData.phoneNumber}
           onChange={(e) => {
-            // Allow only numbers and the "+" character
             const value = e.target.value;
             if (/^\+?[0-9]*$/.test(value)) {
               setFormData({ ...formData, phoneNumber: value });

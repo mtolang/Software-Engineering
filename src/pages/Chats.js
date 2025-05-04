@@ -36,8 +36,13 @@ const ChatStatic = () => {
       return "Surveys are available in the Survey section. Feel free to participate!";
     } else if (lowerCaseMessage.includes("job")) {
       return "Visit the Jobs section to explore job opportunities for alumni.";
-    } else if (lowerCaseMessage.includes("donation")) {
-      return "You can contribute through the Donations section. Thank you for your support!";
+    } else if (lowerCaseMessage.includes("donate")) {
+      return `You can send your donations to the following bank accounts:\n
+      - **Asia United Bank**: 326-11-000658-7\n
+      - **BDO Network Bank**: 040020074239\n
+      - **BDO Unibank**: 003250299159\n
+      - **MetroBank**: 665-3-66509642-5\n
+      Thank you for your support!`;
     } else {
       return "I'm sorry, I can only answer questions related to the Alumni Portal. Please try asking about events, surveys, jobs, or donations.";
     }

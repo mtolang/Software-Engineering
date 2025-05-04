@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../firebaseConfig"; // Import Firestore configuration
+import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import eye icons for password toggle
 import Logo from "../assets/nobglogo.png";
 import Logo3 from "../assets/logo3.png"; // Import the third logo
 import "../styles/adminlogin.css"; // Import Admin Login styles
@@ -10,6 +11,7 @@ const AdminLogin = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState(""); // State for email input
   const [password, setPassword] = useState(""); // State for password input
+  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
   const [error, setError] = useState(""); // State for error messages
   const [loading, setLoading] = useState(false); // State for loading indicator
 
@@ -81,13 +83,21 @@ const AdminLogin = () => {
           />
 
           <label className="label">Password</label>
-          <input
-            type="password"
-            className="input"
-            placeholder="Enter your password"
-            value={password}
-            onChange={handleInputChange(setPassword)} // Clear error on typing
-          />
+          <div className="password-container">
+            <input
+              type={showPassword ? "text" : "password"}
+              className="input password-input"
+              placeholder="Enter your password"
+              value={password}
+              onChange={handleInputChange(setPassword)} // Clear error on typing
+            />
+            <span
+              className="password-toggle"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </span>
+          </div>
 
           <button className="login-button" onClick={handleLogin} disabled={loading}>
             {loading ? "Logging in..." : "Login"}
